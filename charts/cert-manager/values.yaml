@@ -1,0 +1,67 @@
+secret:
+  basicAuth:
+    user: admin
+    password: admin
+
+cert-manager:
+  enabled: true
+  #
+  # global
+  global:
+    rbac:
+      create: true
+    podSecurityPolicy:
+      enabled: false
+  #
+  # crds
+  crds:
+    enabled: true
+    keep: true
+  podDisruptionBudget:
+    enabled: false
+  image:
+    name: cert-manager-controller
+    repository: ""
+  serviceAccount:
+    create: true
+    automountServiceAccountToken: true
+  enableCertificateOwnerRef: true
+  config: {}
+  securityContext:
+    runAsNonRoot: true
+  volumes: []
+  volumeMounts: []
+  podLabels: {}
+  hostAliases: []
+  networkPolicy:
+    enabled: false
+  livenessProbe:
+    enabled: true
+  enableServiceLinks: false
+  #
+  # prometheus
+  prometheus:
+    enabled: false
+    servicemonitor:
+      enabled: false
+    podmonitor:
+      enabled: false
+  #
+  # webhook
+  webhook:
+    replicaCount: 1
+  #
+  # cainjector
+  cainjector:
+    enabled: true
+    replicaCount: 1
+  #
+  # acmesolver
+  acmesolver:
+    image:
+      name: cert-manager-acmesolver
+  #
+  # startupapicheck
+  startupapicheck:
+    enabled: true
+    

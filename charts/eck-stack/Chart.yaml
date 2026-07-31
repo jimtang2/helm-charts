@@ -1,0 +1,11 @@
+apiVersion: v2
+name: eck-stack
+description: eck stack
+type: application
+version: 0.1.0
+appVersion: "0.19.1"
+dependencies:
+  - name: eck-stack
+    version: "0.19.1"
+    repository: https://helm.elastic.co
+    condition: eck-stack.enabled

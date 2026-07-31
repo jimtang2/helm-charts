@@ -1,0 +1,36 @@
+httproute:
+  enabled: true
+
+keycloakx:
+  nameOverride: keycloak
+  command:
+    - "/opt/keycloak/bin/kc.sh"
+    - "start"
+    - "--http-port=8080"
+    - "--hostname-strict=false"
+    - "--hostname=https://keycloak.localhost"
+  extraEnv: |
+    - name: KEYCLOAK_ADMIN
+      value: "admin"
+    - name: KEYCLOAK_ADMIN_PASSWORD
+      value: "admin"
+    - name: JAVA_OPTS_APPEND
+      value: >-
+        -Djgroups.dns.query=keycloak-headless
+  service:
+    httpPort: 8080
+    httpsPort: 8443
+  database:
+    # don't create secret for db password. Instead use existing k8s secret
+    # existingSecret: "my-existent-dbpass-secret"
+    # existingSecretKey: "password"
+    existingSecret: "postgresql"
+    existingSecretKey: "password"
+    vendor: postgres
+    hostname: postgresql
+    port: 5432
+    database: keycloak
+    username: postgres
+  http:
+    relativePath: "/"
+    

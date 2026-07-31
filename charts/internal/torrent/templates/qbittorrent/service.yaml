@@ -1,0 +1,26 @@
+{{- if .Values.qbittorrent.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: {{ .Values.qbittorrent.service.type }}
+  selector:
+    {{- include "chart.selectorLabels" . | nindent 4 }}
+  ports:
+  - name: webui
+    port: {{ .Values.qbittorrent.service.ports.webui.port }}
+    targetPort: webui
+    protocol: TCP
+  - name: torrent-tcp
+    port: {{ .Values.qbittorrent.service.ports.torrent_tcp.port }}
+    targetPort: torrent-tcp
+    protocol: TCP
+  - name: torrent-udp
+    port: {{ .Values.qbittorrent.service.ports.torrent_udp.port }}
+    targetPort: torrent-udp
+    protocol: UDP
+{{- end }}

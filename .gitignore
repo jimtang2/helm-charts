@@ -1,0 +1,7 @@
+.DS_Store
+src
+vol
+scripts
+pkg
+*.tgz
+.vscode

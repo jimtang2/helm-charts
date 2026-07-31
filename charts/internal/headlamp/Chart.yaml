@@ -1,0 +1,11 @@
+apiVersion: v2
+name: headlamp
+description: Headlamp
+type: application
+version: 0.1.0
+appVersion: "0.43.0"
+dependencies:
+  - name: headlamp
+    repository: "https://kubernetes-sigs.github.io/headlamp/"
+    version: "0.43.0"
+    condition: headlamp.enabled

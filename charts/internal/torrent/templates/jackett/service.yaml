@@ -1,0 +1,20 @@
+{{- if .Values.jackett.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "chart.fullname" . }}-jackett
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+    app.kubernetes.io/component: jackett
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: {{ .Values.jackett.service.type }}
+  selector:
+    app.kubernetes.io/name: jackett
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+  - name: webui
+    port: {{ .Values.jackett.service.ports.webui.port }}
+    targetPort: webui
+    protocol: TCP
+{{- end }}

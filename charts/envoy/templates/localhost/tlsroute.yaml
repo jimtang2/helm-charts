@@ -1,0 +1,31 @@
+#
+# tls -> envoy-edge to envoy-localhost
+apiVersion: gateway.networking.k8s.io/v1
+kind: TLSRoute
+metadata:
+  name: localhost
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+    hostname: "localhost"
+spec:
+  parentRefs:
+  - name: {{ include "chart.fullname" . }}-edge
+    namespace: {{ .Release.Namespace }}
+    sectionName: tls-localhost
+    port: 443
+  - name: {{ include "chart.fullname" . }}-edge
+    namespace: {{ .Release.Namespace }}
+    sectionName: tls-localhost-apex
+    port: 443
+  hostnames:
+  - "*.localhost"
+  - "localhost"
+  rules:
+  - backendRefs:
+    - name: {{ include "chart.fullname" . }}-localhost
+      namespace: {{ .Release.Namespace }}
+      port: 8443
+      weight: 1
+
+---

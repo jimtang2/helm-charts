@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "chart.fullname" . }}-extended-config
+  namespace: {{ .Release.Namespace }}
+data:
+  override.conf: |
+    checkpoint_completion_target = 0.9
+    hot_standby_feedback = on
+    wal_level = replica
+    wal_keep_size = 1GB
+    wal_compression = on
+    wal_sender_timeout = 30s
+    wal_receiver_status_interval = 10s
+    max_replication_slots = 10
+    max_wal_size = 2GB
+    max_wal_senders = 10
+    min_wal_size = 512MB
+    recovery_min_apply_delay = 0

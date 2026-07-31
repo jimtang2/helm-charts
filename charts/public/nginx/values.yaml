@@ -1,0 +1,19 @@
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "1.31-alpine"
+
+volumes:
+  wwwDir: 
+    hostPath: /Users/jimtang/Development/vol/nginx/www
+  configDir: 
+    hostPath: /Users/jimtang/Development/vol/nginx/conf.d
+  config:
+    hostPath: /Users/jimtang/Development/vol/nginx/nginx.conf
+
+service:
+  enabled: true
+
+httproute:
+  enabled: true

@@ -1,0 +1,27 @@
+#
+# tls -> envoy-edge to envoy-lab9-studio
+apiVersion: gateway.networking.k8s.io/v1
+kind: TLSRoute
+metadata:
+  name: lab9-studio
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+    hostname: "lab9.studio"
+spec:
+  parentRefs:
+  - name: {{ include "chart.fullname" . }}-edge
+    namespace: {{ .Release.Namespace }}
+    sectionName: tls-lab9-studio
+    port: 443
+  hostnames:
+  - "*.lab9.studio"
+  - "lab9.studio"
+  rules:
+  - backendRefs:
+    - name: {{ include "chart.fullname" . }}-lab9-studio
+      namespace: {{ .Release.Namespace }}
+      port: 28443
+      weight: 1
+
+---

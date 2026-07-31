@@ -1,0 +1,66 @@
+qbittorrent:
+  image:
+    repository: linuxserver/qbittorrent
+    tag: "5.2.3"
+    pullPolicy: IfNotPresent
+
+  env:
+    PUID: 1000
+    PGID: 1000
+    TZ: "Etc/UTC"
+    WEBUI_PORT: 8080
+    TORRENTING_PORT: 6881
+
+  volumes:
+    config:
+      hostPath: /Users/jimtang/Development/vol/qbittorrent
+    downloads:
+      hostPath: /Users/jimtang/Downloads
+      
+  service:
+    enabled: true
+    type: ClusterIP
+    ports:
+      webui:
+        port: 8080
+        targetPort: 8080
+        protocol: TCP
+      torrent_tcp:
+        port: 6881
+        targetPort: 6881
+        protocol: TCP
+      torrent_udp:
+        port: 6881
+        targetPort: 6881
+        protocol: UDP
+  httproute:
+    enabled: true
+
+jackett:
+  image:
+    repository: linuxserver/jackett
+    tag: "0.24.2237"
+    pullPolicy: IfNotPresent
+
+  env:
+    PUID: 1000
+    PGID: 1000
+    TZ: "Etc/UTC"
+    AUTO_UPDATE: "true"
+
+  volumes:
+    config:
+      hostPath: /Users/jimtang/Development/vol/jackett
+    downloads:
+      hostPath: /Users/jimtang/Downloads # using emptyDir instead
+
+  service:
+    enabled: true
+    type: ClusterIP
+    ports:
+      webui:
+        port: 9117
+        targetPort: 9117
+        protocol: TCP
+  httproute:
+    enabled: true

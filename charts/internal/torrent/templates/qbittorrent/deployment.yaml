@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "chart.selectorLabels" . | nindent 8 }}
+      namespace: {{ .Release.Namespace }}
+    spec:
+      containers:
+      - name: qbittorrent
+        image: "{{ .Values.qbittorrent.image.repository }}:{{ .Values.qbittorrent.image.tag }}"
+        imagePullPolicy: {{ .Values.qbittorrent.image.pullPolicy }}
+        env:
+        - name: PUID
+          value: "{{ .Values.qbittorrent.env.PUID }}"
+        - name: PGID
+          value: "{{ .Values.qbittorrent.env.PGID }}"
+        - name: TZ
+          value: "{{ .Values.qbittorrent.env.TZ }}"
+        - name: WEBUI_PORT
+          value: "{{ .Values.qbittorrent.env.WEBUI_PORT }}"
+        - name: TORRENTING_PORT
+          value: "{{ .Values.qbittorrent.env.TORRENTING_PORT }}"
+        ports:
+        - containerPort: 8080
+          name: webui
+        - containerPort: 6881
+          name: torrent-tcp
+        - containerPort: 6881
+          name: torrent-udp
+          protocol: UDP
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: downloads
+          mountPath: /downloads
+      volumes:
+      - name: config
+        hostPath:
+          path: {{ .Values.qbittorrent.volumes.config.hostPath }}
+          type: DirectoryOrCreate
+      - name: downloads
+        hostPath:
+          path: {{ .Values.qbittorrent.volumes.downloads.hostPath }}
+          type: DirectoryOrCreate

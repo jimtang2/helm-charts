@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-cert-manager-bootstrap-jimtang-me
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    # "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 6
+  template:
+    spec:
+      serviceAccountName: {{ .Release.Name }}-cert-manager-bootstrap
+      restartPolicy: OnFailure
+      containers:
+      - name: kubectl
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/sh
+        - -ec
+        - |
+          CM_NS="{{ .Release.Namespace }}"
+          TIMEOUT=60s
+
+          kubectl wait --for=condition=Available=True deployment/cert-manager -n "${CM_NS}" --timeout=$TIMEOUT
+          kubectl wait --for=condition=Available=True deployment/cert-manager-webhook -n "${CM_NS}" --timeout=$TIMEOUT
+          kubectl wait --for=condition=Available=True deployment/cert-manager-cainjector -n "${CM_NS}" --timeout=$TIMEOUT || true
+
+          cat <<'EOF' | kubectl apply -f -
+          apiVersion: cert-manager.io/v1
+          kind: ClusterIssuer
+          metadata:
+            name: jimtang-me
+          spec:
+            acme:
+              server: https://acme-v02.api.letsencrypt.org/directory
+              email: me@jimtang.me
+              privateKeySecretRef:
+                name: jimtang-me-tls-key
+              solvers:
+              - dns01:
+                  cloudflare:
+                    apiTokenSecretRef:
+                      name: cloudflare-api-token
+                      key: api-token
+          ---
+          apiVersion: cert-manager.io/v1
+          kind: Certificate
+          metadata:
+            name: jimtang-me-tls-cert
+            namespace: {{ .Release.Namespace }}
+          spec:
+            secretName: jimtang-me-tls-cert
+            duration: 8760h
+            renewBefore: 720h
+            commonName: jimtang.me
+            dnsNames:
+            - "jimtang.me"
+            - "*.jimtang.me"
+            issuerRef:
+              name: jimtang-me
+              kind: ClusterIssuer
+              group: cert-manager.io
+          EOF
+

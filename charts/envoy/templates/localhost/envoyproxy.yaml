@@ -1,0 +1,25 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: {{ include "chart.fullname" . }}-localhost
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+    hostname: "localhost"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+spec:
+  telemetry:
+    metrics:
+      prometheus:
+        disable: false
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        type: LoadBalancer
+        name: {{ include "chart.fullname" . }}-localhost
+        labels:
+          hostname: "localhost"
+
+---

@@ -1,0 +1,11 @@
+apiVersion: v2
+name: eck-operator
+description: eck operator
+type: application
+version: 0.1.0
+appVersion: "3.4.1"
+dependencies:
+  - name: eck-operator
+    version: "3.4.1"
+    repository: https://helm.elastic.co
+    condition: eck-operator.enabled

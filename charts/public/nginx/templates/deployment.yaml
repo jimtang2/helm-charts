@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.fullname" . }}
+  namespace:  {{ .Release.Namespace }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "chart.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: nginx
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        livenessProbe: 
+          httpGet:
+            path: /
+            port: http
+        readinessProbe: 
+          httpGet:
+            path: /
+            port: http
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        env:
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: conf-file
+          mountPath: /etc/nginx/nginx.conf
+        - name: conf-dir
+          mountPath: /etc/nginx/conf.d
+        - name: www-dir
+          mountPath: /etc/www
+      volumes:
+      - name: conf-file
+        hostPath:
+          path: {{ .Values.volumes.config.hostPath }}
+          type: File
+      - name: conf-dir
+        hostPath:
+          path: {{ .Values.volumes.configDir.hostPath }}
+          type: DirectoryOrCreate
+      - name: www-dir
+        hostPath:
+          path: {{ .Values.volumes.wwwDir.hostPath }}
+          type: DirectoryOrCreate

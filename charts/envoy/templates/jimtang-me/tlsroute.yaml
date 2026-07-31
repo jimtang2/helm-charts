@@ -1,0 +1,27 @@
+#
+# tls -> envoy-edge to envoy-jimtang-me
+apiVersion: gateway.networking.k8s.io/v1
+kind: TLSRoute
+metadata:
+  name: jimtang-me
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+    hostname: "jimtang.me"
+spec:
+  parentRefs:
+  - name: {{ include "chart.fullname" . }}-edge
+    namespace: {{ .Release.Namespace }}
+    sectionName: tls-jimtang-me
+    port: 443
+  hostnames:
+  - "*.jimtang.me"
+  - "jimtang.me"
+  rules:
+  - backendRefs:
+    - name: {{ include "chart.fullname" . }}-jimtang-me
+      namespace: {{ .Release.Namespace }}
+      port: 18443
+      weight: 1
+
+---
