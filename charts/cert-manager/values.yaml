@@ -1,7 +1,4 @@
-secret:
-  basicAuth:
-    user: admin
-    password: admin
+enabled: true
 
 cert-manager:
   enabled: true
@@ -14,9 +11,6 @@ cert-manager:
       enabled: false
   #
   # crds
-  crds:
-    enabled: true
-    keep: true
   podDisruptionBudget:
     enabled: false
   image:
@@ -26,15 +20,8 @@ cert-manager:
     create: true
     automountServiceAccountToken: true
   enableCertificateOwnerRef: true
-  config: {}
   securityContext:
     runAsNonRoot: true
-  volumes: []
-  volumeMounts: []
-  podLabels: {}
-  hostAliases: []
-  networkPolicy:
-    enabled: false
   livenessProbe:
     enabled: true
   enableServiceLinks: false

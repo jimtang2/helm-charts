@@ -1,0 +1,47 @@
+{{- include "certs.localhost" (merge (dict "hook" "post-upgrade" "hookDeletePolicy" "before-hook-creation") .) }}
+--- 
+{{- include "certs.jimtang-me" (merge (dict "hook" "post-upgrade" "hookDeletePolicy" "before-hook-creation") .) }}
+--- 
+{{- include "certs.lab9-studio" (merge (dict "hook" "post-upgrade" "hookDeletePolicy" "before-hook-creation") .) }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-create-certs
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 6
+  template:
+    spec:
+      serviceAccountName: {{ .Release.Name }}-cert-manager-bootstrap
+      restartPolicy: OnFailure
+      containers:
+      - name: kubectl
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/sh
+        - -ec
+        - |
+          NS="{{ .Release.Namespace }}"
+          TIMEOUT=60s
+
+          kubectl wait --for=condition=Available=True deployment/cert-manager -n "${NS}" --timeout=$TIMEOUT
+          kubectl wait --for=condition=Available=True deployment/cert-manager-webhook -n "${NS}" --timeout=$TIMEOUT
+          kubectl wait --for=condition=Available=True deployment/cert-manager-cainjector -n "${NS}" --timeout=$TIMEOUT || true
+
+          cat <<'EOF' | kubectl apply -f -
+            {{ include "certs.localhost" (merge (dict "hook" "post-install" "hookDeletePolicy" "before-hook-creation,hook-succeeded") .) | nindent 12 }}
+          EOF
+          cat <<'EOF' | kubectl apply -f -
+            {{ include "certs.jimtang-me" (merge (dict "hook" "post-install" "hookDeletePolicy" "before-hook-creation,hook-succeeded") .) | nindent 12 }}
+          EOF
+          cat <<'EOF' | kubectl apply -f -
+            {{ include "certs.lab9-studio" (merge (dict "hook" "post-install" "hookDeletePolicy" "before-hook-creation,hook-succeeded") .) | nindent 12 }}
+          EOF
+
+---
