@@ -5,3 +5,4 @@ scripts
 pkg
 *.tgz
 .vscode
+secrets

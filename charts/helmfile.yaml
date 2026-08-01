@@ -8,13 +8,23 @@ helmDefaults:
   forceConflicts: true
   serverSide: true
 
+# bases:
+# - environments.yaml
+
 commonLabels:
   install: helmfile
 
 releases:
   #
-  # default
+  # ns:default
   #
+  - name: envoy
+    chart: ./envoy
+    # condition: enabled
+  - name: cert-manager
+    chart: ./cert-manager
+    condition: enabled
+    installed: true
   - name: kafka
     chart: ./kafka
     condition: enabled
@@ -39,19 +49,6 @@ releases:
     chart: ./fluent
     condition: enabled
     installed: false
-  - name: cert-manager
-    chart: ./cert-manager
-    hooks:
-    - events: ["prepare"]
-      showlogs: true
-      command: ./cert-manager/files/add_secrets.sh
-      args: []
-    condition: enabled
-    installed: false
-  - name: envoy
-    chart: ./envoy
-    condition: enabled
-    installed: false
   - name: oauth2-proxy
     chart: ./oauth2-proxy
     condition: enabled
@@ -69,7 +66,7 @@ releases:
     condition: enabled
     installed: false
   #
-  # internal
+  # ns:internal
   #
   - name: audiobooks
     chart: ./internal/audiobooks
@@ -92,7 +89,7 @@ releases:
     condition: enabled
     installed: false
   #
-  # public
+  # ns:public
   #
   - name: nginx
     chart: ./public/nginx
