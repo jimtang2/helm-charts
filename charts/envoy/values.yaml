@@ -1,4 +1,10 @@
-gateway-helm:
+enabled: true
+
+envoy-gateway:
+  gatewayAPI:
+    safeUpgradePolicy:
+      enabled: false
+
   # Global settings
   global:
     # If set, these take highest precedence and change envoyGateway, envoyProxy, and ratelimit's container registry and pull secrets.

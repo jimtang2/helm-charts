@@ -20,6 +20,7 @@ spec:
         type: LoadBalancer
         name: {{ include "chart.fullname" . }}-jimtang-me
         labels:
+          {{- include "chart.labels" . | nindent 10 }}
           hostname: "jimtang.me"
 
 ---

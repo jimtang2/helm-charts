@@ -22,5 +22,9 @@ spec:
       envoyService:
         type: LoadBalancer
         name: {{ include "chart.fullname" . }}-edge
+        labels:
+          {{- include "chart.labels" . | nindent 10 }}
+          hostname: "host"
+        
 
 ---

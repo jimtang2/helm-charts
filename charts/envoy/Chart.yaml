@@ -2,9 +2,9 @@ apiVersion: v2
 name: envoy
 description: Envoy gateway
 type: application
-version: 0.1.0
-appVersion: "v0.0.0-latest"
+version: 0.0.1
+appVersion: ""
 dependencies:
-  - name: gateway-helm
-    version: "v0.0.0-latest"
-    repository: file://../../../pkg/envoyproxy-gateway/charts/gateway-helm
+  - name: envoy-gateway
+    version: ""
+    repository: ""

@@ -7,7 +7,7 @@ metadata:
     {{- include "chart.labels" . | nindent 4 }}
     hostname: "edge"
   annotations:
-    "helm.sh/hook": post-install,post-upgrade
+    # "helm.sh/hook": post-install,post-upgrade
 spec:
   gatewayClassName: {{ include "chart.fullname" . }}
   infrastructure:

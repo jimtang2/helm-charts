@@ -2,6 +2,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: "{{ .Release.Name }}-cleanup"
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-weight": "10"
@@ -20,13 +22,13 @@ spec:
         - -c
         - |
           NAMESPACE="{{ .Release.Namespace }}"
-          SERVICE="{{ .Release.Name }}"
-          LABEL_SELECTOR="app.kubernetes.io/managed-by=envoy-gateway"
-          
-          kubectl delete gateway $SERVICE -n $NAMESPACE --ignore-not-found
+          SELECTOR="app.kubernetes.io/instance={{ .Release.Name }}"
+          RESOURCES=gateway,envoyproxy,service,serviceaccount,role
+
+          kubectl get $RESOURCES -n $NAMESPACE -l $SELECTOR --ignore-not-found -o name | xargs kubectl delete
 
           while true; do
-            output=$(kubectl get all -l $LABEL_SELECTOR -n $NAMESPACE -o name)
+            output=$(kubectl get $RESOURCES -l $SELECTOR -n $NAMESPACE -o name)
             if [ ${#output} -eq 0 ]; then 
               break
             else
@@ -34,6 +36,8 @@ spec:
               sleep 0.5
             fi
           done
+
+
         securityContext:
           runAsUser: 1000
           runAsNonRoot: true
@@ -62,7 +66,16 @@ metadata:
 rules:
 - apiGroups: ["gateway.networking.k8s.io"]
   resources: ["gateways"]
-  verbs: ["delete"]
+  verbs: ["list", "delete"]
+- apiGroups: ["gateway.envoyproxy.io"]
+  resources: ["envoyproxies"]
+  verbs: ["list", "delete"]
+- apiGroups: [""]
+  resources: ["services", "serviceaccounts"]
+  verbs: ["list", "delete"]
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["roles", "rolebindings"]
+  verbs: ["list", "delete"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1

@@ -1,6 +1,0 @@
-dependencies:
-- name: gateway-helm
-  repository: file://../../../pkg/envoyproxy-gateway/charts/gateway-helm
-  version: v0.0.0-latest
-digest: sha256:38e11e382924b72cb63947f7c8d8769584f6640f126fcc53ab34e40cb75a3dee
-generated: "2026-07-26T13:45:20.380518+02:00"
