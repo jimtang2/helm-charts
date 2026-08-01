@@ -2,14 +2,14 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: TCPRoute
 metadata:
-  name: {{ include "chart.fullname" . }}-tcp
+  name: {{ include "chart.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "chart.labels" . | nindent 4 }}
 spec:
   parentRefs:
   - name: envoy-localhost
-    namespace: net
+    namespace: default
     sectionName: postgresql
     port: 5432
   rules:

@@ -5,12 +5,6 @@ volumes:
 tcproute:
   enabled: true
 
-secret:
-  auth:
-    password: password
-    postgresPassword: password
-    replicationPassword: password
-
 postgresql:
   global:
     postgresql:
@@ -18,9 +12,14 @@ postgresql:
       auth:
         enablePostgresUser: true
         ## @param global.postgresql.auth.existingSecret Name of existing secret to use for PostgreSQL credentials (overrides `auth.existingSecret`).
-        existingSecret: "postgresql"
+        existingSecret: postgresql
         username: "postgres"
         database: "local"
+        secretKeys:
+          adminPasswordKey: ""
+          userPasswordKey: ""
+          replicationPasswordKey: ""
+          metricsPasswordKey: ""
       ## @param global.postgresql.service.ports.postgresql PostgreSQL service port (overrides `service.ports.postgresql`)
       ##
       service:
@@ -88,8 +87,8 @@ postgresql:
     persistence:
       enabled: true
       # volumeName and existingClaim must be set together to use existing PVC
-      volumeName: postgresql-data
-      existingClaim: postgresql-data
+      volumeName: postgresql
+      existingClaim: postgresql
       mountPath: /bitnami/postgresql
       subPath: ""
       storageClass: local-hostpath
@@ -114,8 +113,8 @@ postgresql:
     persistence:
       enabled: true
       # volumeName and existingClaim must be set together to use existing PVC
-      volumeName: postgresql-data-read
-      existingClaim: postgresql-data-read
+      volumeName: postgresql-read
+      existingClaim: postgresql-read
       mountPath: /bitnami/postgresql
       subPath: ""
       storageClass: local-hostpath

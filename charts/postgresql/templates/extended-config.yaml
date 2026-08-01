@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ include "chart.fullname" . }}-extended-config
   namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
 data:
   override.conf: |
     checkpoint_completion_target = 0.9

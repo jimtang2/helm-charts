@@ -1,10 +1,10 @@
 apiVersion: v2
-name: postgres
-description: Postgres on local cluster
+name: postgresql
+description: PostgreSQL on local cluster
 type: application
-version: 0.1.0
+version: 0.0.1
 appVersion: "18.7.11"
 dependencies:
   - name: postgresql
     version: "18.7.11"
-    repository: https://charts.bitnami.com/bitnami
+    repository: ""
