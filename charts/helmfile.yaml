@@ -23,8 +23,7 @@ releases:
     # condition: enabled
   - name: cert-manager
     chart: ./cert-manager
-    condition: enabled
-    installed: true
+    # condition: enabled
   - name: kafka
     chart: ./kafka
     condition: enabled

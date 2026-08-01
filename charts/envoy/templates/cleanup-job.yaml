@@ -25,7 +25,7 @@ spec:
           SELECTOR="app.kubernetes.io/instance={{ .Release.Name }}"
           RESOURCES=gateway,envoyproxy,service,serviceaccount,role
 
-          kubectl get $RESOURCES -n $NAMESPACE -l $SELECTOR --ignore-not-found -o name | xargs kubectl delete
+          kubectl get $RESOURCES -n $NAMESPACE -l $SELECTOR --ignore-not-found -o name | xargs kubectl delete -n $NAMESPACE
 
           while true; do
             output=$(kubectl get $RESOURCES -l $SELECTOR -n $NAMESPACE -o name)
