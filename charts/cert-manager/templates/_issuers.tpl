@@ -1,4 +1,4 @@
-{{- define "issuers.localhost" -}}
+{{- define "issuers.localhost" }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -6,14 +6,13 @@ metadata:
   labels:
     {{- include "chart.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": {{ .hook }}
-    "helm.sh/hook-delete-policy": {{ .hookDeletePolicy }}
+    helm.sh/resource-policy: keep
 spec:
   ca:
     secretName: mkcert-ca
 {{- end }}
 
-{{- define "issuers.lab9-studio" -}}
+{{- define "issuers.lab9-studio" }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -21,8 +20,7 @@ metadata:
   labels:
     {{- include "chart.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": {{ .hook }}
-    "helm.sh/hook-delete-policy": {{ .hookDeletePolicy }}
+    helm.sh/resource-policy: keep
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
@@ -37,7 +35,7 @@ spec:
             key: token
 {{- end }}
 
-{{- define "issuers.jimtang-me" -}}
+{{- define "issuers.jimtang-me" }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -45,8 +43,7 @@ metadata:
   labels:
     {{- include "chart.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": {{ .hook }}
-    "helm.sh/hook-delete-policy": {{ .hookDeletePolicy }}
+    helm.sh/resource-policy: keep
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory

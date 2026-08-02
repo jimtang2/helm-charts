@@ -1,5 +1,7 @@
 enabled: true
 
+reIssue: false # default
+
 cert-manager:
   enabled: true
   #

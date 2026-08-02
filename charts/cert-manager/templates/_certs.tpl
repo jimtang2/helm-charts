@@ -1,4 +1,4 @@
-{{- define "certs.localhost" -}}
+{{- define "certs.localhost" }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -7,8 +7,7 @@ metadata:
   labels:
     {{- include "chart.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": {{ .hook }}
-    "helm.sh/hook-delete-policy": {{ .hookDeletePolicy }}
+    helm.sh/resource-policy: keep
 spec:
   secretName: localhost-tls-cert
   duration: 8760h
@@ -39,7 +38,7 @@ spec:
     group: cert-manager.io
 {{- end }}
 
-{{- define "certs.lab9-studio" -}}
+{{- define "certs.lab9-studio" }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -48,8 +47,7 @@ metadata:
   labels:
     {{- include "chart.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": {{ .hook }}
-    "helm.sh/hook-delete-policy": {{ .hookDeletePolicy }}
+    helm.sh/resource-policy: keep
 spec:
   secretName: lab9-studio-tls-cert
   duration: 8760h
@@ -57,6 +55,7 @@ spec:
   commonName: lab9.studio
   dnsNames:
   - "login.lab9.studio"
+  - "auth.lab9.studio"
   - "www.lab9.studio"
   - "lab9.studio"
   issuerRef:
@@ -65,7 +64,7 @@ spec:
     group: cert-manager.io
 {{- end }}
 
-{{- define "certs.jimtang-me" -}}
+{{- define "certs.jimtang-me" }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -74,8 +73,7 @@ metadata:
   labels:
     {{- include "chart.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": {{ .hook }}
-    "helm.sh/hook-delete-policy": {{ .hookDeletePolicy }}
+    helm.sh/resource-policy: keep
 spec:
   secretName: jimtang-me-tls-cert
   duration: 8760h
@@ -83,6 +81,7 @@ spec:
   commonName: jimtang.me
   dnsNames:
   - "login.jimtang.me"
+  - "auth.jimtang.me"
   - "www.jimtang.me"
   - "jimtang.me"
   issuerRef:
