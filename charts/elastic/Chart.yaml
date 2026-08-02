@@ -1,0 +1,14 @@
+apiVersion: v2
+name: elastic
+description: the elastic stack
+type: application
+version: 0.0.1
+appVersion: "0.19.1"
+dependencies:
+  - name: eck-operator
+    version: "0.19.1"
+    repository: ""
+  - name: eck-stack
+    version: "0.19.1"
+    repository: ""
+    

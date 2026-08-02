@@ -1,0 +1,93 @@
+---
+# Full elastic stack values override for local cluster
+#
+enabled: true
+
+persistence:
+  volumes:
+    elasticsearch: 
+      hostPath: /Users/jimtang/Development/vol/elasticsearch
+
+# eck operator
+#
+eck-operator:
+  enabled: true
+
+  labels: 
+    app.kubernetes.io/instance: elastic  
+
+# eck stack
+#
+eck-stack:
+  eck-elasticsearch:
+    enabled: true
+    fullnameOverride: elasticsearch
+    labels: 
+      app.kubernetes.io/instance: elastic
+
+    podTemplate:
+      spec:
+        containers:
+        - name: elasticsearch
+          resources:
+            requests:
+              memory: 2Gi
+              cpu: 1
+            limits:
+              memory: 2Gi
+              cpu: 2
+
+    nodeSets:
+    - name: masters
+      count: 1
+      config:
+        node.roles: ["master", "data_hot", "data_content", "ingest"]
+        node.store.allow_mmap: false
+      # Volume Claim settings.
+      # ref: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-volume-claim-templates.html
+      #
+      volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 60Gi
+          storageClassName: local-hostpath
+
+  eck-kibana:
+    enabled: true
+    elasticsearchRef:
+      name: elasticsearch
+    
+    labels: 
+      app.kubernetes.io/instance: elastic
+
+  eck-agent:
+    enabled: false
+
+  eck-fleet-server:
+    enabled: false
+
+  eck-beats:
+    enabled: false
+
+  eck-logstash:
+    enabled: false
+
+  eck-apm-server:
+    enabled: false
+
+  eck-enterprise-search:
+    enabled: false
+
+  eck-autoops-agent-policy:
+    enabled: false
+
+  eck-package-registry:
+    enabled: false
+
+  extraObjects: []
+
