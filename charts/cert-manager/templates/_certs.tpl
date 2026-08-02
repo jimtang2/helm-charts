@@ -56,8 +56,9 @@ spec:
   renewBefore: 720h
   commonName: lab9.studio
   dnsNames:
+  - "login.lab9.studio"
+  - "www.lab9.studio"
   - "lab9.studio"
-  - "*.lab9.studio"
   issuerRef:
     name: lab9-studio
     kind: ClusterIssuer
@@ -81,8 +82,9 @@ spec:
   renewBefore: 720h
   commonName: jimtang.me
   dnsNames:
+  - "login.jimtang.me"
+  - "www.jimtang.me"
   - "jimtang.me"
-  - "*.jimtang.me"
   issuerRef:
     name: jimtang-me
     kind: ClusterIssuer

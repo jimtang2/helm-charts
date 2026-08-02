@@ -136,7 +136,7 @@ postgresql:
     automountServiceAccountToken: false
 
   metrics:
-    enabled: true
+    enabled: false
 
   serviceMonitor:
     enabled: false

@@ -1,19 +1,42 @@
-
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  tag: "1.31-alpine"
-
 volumes:
   wwwDir: 
-    hostPath: /Users/jimtang/Development/vol/nginx/www
+    hostPath: /Users/jimtang/Development/vol/nginx/www/home
   configDir: 
-    hostPath: /Users/jimtang/Development/vol/nginx/conf.d
+    hostPath: /Users/jimtang/Development/vol/nginx/public/conf.d
   config:
-    hostPath: /Users/jimtang/Development/vol/nginx/nginx.conf
-
-service:
-  enabled: true
+    hostPath: /Users/jimtang/Development/vol/nginx/public/nginx.conf
 
 httproute:
   enabled: true
+  parentRefs:
+  - name: envoy-jimtang-me
+    namespace: default
+    sectionName: http
+    port: 18080
+  - name: envoy-jimtang-me
+    namespace: default
+    sectionName: https
+    port: 18443
+  - name: envoy-lab9-studio
+    namespace: default
+    sectionName: http
+    port: 28080
+  - name: envoy-lab9-studio
+    namespace: default
+    sectionName: https
+    port: 28443
+  hostnames:
+  - jimtang.me
+  - lab9.studio
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: "/"
+    filters: []
+    backendRefs:
+    - name: nginx-public
+      namespace: public
+      port: 80
+      weight: 1
+  

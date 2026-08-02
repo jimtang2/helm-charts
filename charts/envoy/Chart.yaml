@@ -3,8 +3,8 @@ name: envoy
 description: Envoy gateway
 type: application
 version: 0.0.1
-appVersion: ""
+appVersion: 0.0.0
 dependencies:
   - name: envoy-gateway
-    version: ""
+    version: "0.0.0"
     repository: ""
