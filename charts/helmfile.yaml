@@ -1,3 +1,6 @@
+# bases:
+# - environments.yaml
+
 helmDefaults:
   createNamespace: true
   skipCRDs: false
@@ -8,9 +11,6 @@ helmDefaults:
   forceConflicts: true
   serverSide: true
 
-# bases:
-# - environments.yaml
-
 commonLabels:
   install: helmfile
 
@@ -20,79 +20,61 @@ releases:
   #
   - name: envoy
     chart: ./envoy
-    # condition: enabled
   - name: cert-manager
     chart: ./cert-manager
-    # condition: enabled
-  - name: kafka
-    chart: ./kafka
-    condition: enabled
-    installed: false
+    values:
+    - reIssue: false
   - name: postgresql
     chart: ./postgresql
-    condition: enabled
-    installed: false
   - name: elastic
     chart: ./elastic
-    condition: enabled
-    installed: false
-  - name: stalwart
-    chart: ./stalwart
-    condition: enabled
-    installed: false
   - name: prometheus
     chart: ./prometheus
-    condition: enabled
-    installed: false
-  - name: fluent
-    chart: ./fluent
-    condition: enabled
-    installed: false
-  - name: oauth2-proxy
-    chart: ./oauth2-proxy
-    condition: enabled
-    installed: false
+  - name: fluent-bit
+    chart: ./fluent-bit
+    values:
+    - ./fluent-bit/values.yaml
+    - ../values/fluent-bit.yaml
   - name: keycloak
     chart: ./keycloak
-    condition: enabled
-    installed: false
-  - name: flux
-    chart: ./flux
-    condition: enabled
-    installed: false
-  - name: jaeger
-    chart: ./jaeger
-    condition: enabled
-    installed: false
+  # - name: kafka
+  #   chart: ./kafka
+  # - name: redis
+  #   chart: ./redis
+  # - name: stalwart
+  #   chart: ./stalwart
+  #   condition: enabled
+  #   installed: false
+  # - name: oauth2-proxy
+  #   chart: ./oauth2-proxy
+  # - name: flux
+  #   chart: ./flux
+  # - name: jaeger
+  #   chart: ./jaeger
   #
   # ns:internal
   #
   - name: audiobooks
-    chart: ./internal/audiobooks
+    chart: ./audiobooks
     namespace: internal
-    condition: enabled
-    installed: false
   - name: torrents
-    chart: ./internal/torrents
+    chart: ./torrents
     namespace: internal
-    condition: enabled
-    installed: false
-  - name: headlamp
-    chart: ./internal/headlamp
+  - name: nginx-internal
+    chart: ./nginx
     namespace: internal
-    condition: enabled
-    installed: false
-  - name: nginx
-    chart: ./internal/nginx
-    namespace: internal
-    condition: enabled
-    installed: false
+    values:
+    - ./nginx/values.yaml
+    - ../values/nginx-internal.yaml
+  # - name: headlamp
+  #   chart: ./internal/headlamp
+  #   namespace: internal
   #
   # ns:public
   #
-  - name: nginx
-    chart: ./public/nginx
+  - name: nginx-public
+    chart: ./nginx
     namespace: public
-    condition: enabled
-    installed: false
-  
+    values:
+    - ./nginx/values.yaml
+    - ../values/nginx-public.yaml

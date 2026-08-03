@@ -1,0 +1,10 @@
+apiVersion: v2
+name: placeholder
+description: A Helm chart for Kubernetes
+type: application
+version: 0.0.1
+appVersion: "1.16.0"
+# dependencies:
+# - name: "chartname"
+#   repository: ""
+#   version: "0.0.0"
