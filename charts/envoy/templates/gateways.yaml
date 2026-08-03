@@ -1,0 +1,22 @@
+{{- $root := . }}
+{{- $gatewayClassName := .Values.gatewayClassName }}
+{{- $namespace := .Release.Namespace }}
+{{- range $gateway := .Values.gateways }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ $gateway.name }}
+  namespace: {{ default $namespace $gateway.namespace }}
+  labels:
+    {{- include "chart.labels" $root | nindent 4 }}
+spec:
+  gatewayClassName: {{ $gatewayClassName }}
+  infrastructure:
+    parametersRef:
+      group: gateway.envoyproxy.io
+      kind: EnvoyProxy
+      name: {{ $gateway.name }}
+  listeners:
+  {{- toYaml $gateway.listeners | nindent 2}}
+---
+{{- end }}

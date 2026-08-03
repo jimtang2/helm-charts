@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-cleanup"
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-delete-policy": hook-succeeded
+  namespace: {{ .Release.Namespace }}
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Release.Name }}-cleaner
+      restartPolicy: Never
+      containers:
+      - name: cleanup
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          kubectl delete \
+            gateway,envoyproxy,service,serviceaccount,role \
+            --ignore-not-found \
+            --timeout=60s \
+            -l app.kubernetes.io/instance={{ .Release.Name }} \
+            -n {{ .Release.Namespace }} \
+            -o name \
+            || true
+        securityContext:
+          runAsUser: 1000
+          runAsNonRoot: true
+      activeDeadlineSeconds: 30
+---

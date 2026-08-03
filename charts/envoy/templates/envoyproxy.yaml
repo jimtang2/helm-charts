@@ -1,0 +1,29 @@
+{{- $root := . }}
+{{- $gatewayClassName := .Values.gatewayClassName }}
+{{- $namespace := .Release.Namespace }}
+{{- range $gateway := .Values.gateways }}
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: {{ $gateway.name }}
+  namespace: {{ default $namespace $gateway.namespace }}
+  labels:
+    {{- include "chart.labels" $root | nindent 4 }}
+spec:
+  logging:
+    level:
+      default: {{ $gateway.envoyProxy.logLevel }}
+  telemetry:
+    metrics:
+      prometheus:
+        disable: {{ $gateway.envoyProxy.disablePrometheus }}
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        type: LoadBalancer
+        name: {{ $gateway.name }}
+        labels:
+          {{- include "chart.labels" $root | nindent 10 }}
+---
+{{- end }}
