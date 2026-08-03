@@ -3,24 +3,19 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: {{ include "chart.fullname" . }}
-  namespace:  {{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "chart.labels" . | nindent 4 }}
 spec:
   parentRefs:
-  - name: envoy-localhost
+  - name: localhost
     namespace: default
     sectionName: https
     port: 8443
   hostnames:
   - audiobook.localhost
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: "/"
-    filters: []
-    backendRefs:
+  - backendRefs:
     - name: {{ include "chart.fullname" . }}
       namespace:  {{ .Release.Namespace }}
       port: 80

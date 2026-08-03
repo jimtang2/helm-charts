@@ -7,7 +7,7 @@ metadata:
     {{- include "chart.labels" . | nindent 4 }}
 spec:
   parentRefs:
-  - name: envoy-localhost
+  - name: localhost
     namespace: default
     sectionName: https
     port: 8443

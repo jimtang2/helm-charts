@@ -7,9 +7,11 @@ metadata:
   labels:
     {{- include "chart.labels" . | nindent 4 }}
 spec:
-  parentRefs: {{- toYaml .Values.httproute.parentRefs | nindent 2}}
-  hostnames: {{- toYaml .Values.httproute.hostnames | nindent 2}}
-  rules: {{- toYaml .Values.httproute.rules | nindent 2}}
-
+  parentRefs: 
+    {{- toYaml .Values.httproute.parentRefs | nindent 2}}
+  hostnames: 
+    {{- toYaml .Values.httproute.hostnames | nindent 2}}
+  rules: 
+    {{- toYaml .Values.httproute.rules | nindent 2}}
 ---
 {{- end }}

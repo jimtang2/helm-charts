@@ -9,11 +9,11 @@ volumes:
 httproute:
   enabled: true
   parentRefs:
-  - name: envoy-localhost
+  - name: localhost
     namespace: default
     sectionName: https
     port: 8443
-  - name: envoy-localhost
+  - name: localhost
     namespace: default
     sectionName: http
     port: 8080
@@ -21,12 +21,7 @@ httproute:
   - nginx.localhost
   - localhost
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: "/"
-    filters: []
-    backendRefs:
+  - backendRefs:
     - name: nginx-internal
       namespace: internal
       port: 80

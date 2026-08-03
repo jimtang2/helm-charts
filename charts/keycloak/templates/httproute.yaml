@@ -8,22 +8,16 @@ metadata:
     {{- include "chart.labels" . | nindent 4 }}
 spec:
   parentRefs:
-  - name: envoy-localhost
-    namespace: net
+  - name: localhost
+    namespace: default
     sectionName: https
     port: 8443
   hostnames:
   - keycloak.localhost
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: "/"
-    filters: []
-    backendRefs:
+  - backendRefs:
     - name: {{ include "chart.fullname" . }}-http
       namespace: {{ .Release.Namespace }}
       port: 8080
-      weight: 1
 ---
 {{- end }}

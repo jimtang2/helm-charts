@@ -9,34 +9,40 @@ volumes:
 httproute:
   enabled: true
   parentRefs:
-  - name: envoy-jimtang-me
+  - name: jimtang-me
     namespace: default
     sectionName: http
     port: 18080
-  - name: envoy-jimtang-me
+  - name: jimtang-me
     namespace: default
     sectionName: https
     port: 18443
-  - name: envoy-lab9-studio
+  - name: lab9-studio
     namespace: default
     sectionName: http
     port: 28080
-  - name: envoy-lab9-studio
+  - name: lab9-studio
     namespace: default
     sectionName: https
     port: 28443
   hostnames:
+  - www.jimtang.me
+  - www.lab9.studio
   - jimtang.me
   - lab9.studio
   rules:
   - matches:
     - path:
-        type: PathPrefix
+        type: Exact
         value: "/"
-    filters: []
+    - path:
+        type: RegularExpression
+        value: "^/index\\.(js|html)$"
+    - path:
+        type: PathPrefix
+        value: "/favicon.ico"
     backendRefs:
     - name: nginx-public
       namespace: public
       port: 80
-      weight: 1
   

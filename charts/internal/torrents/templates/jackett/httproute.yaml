@@ -8,22 +8,16 @@ metadata:
     {{- include "chart.labels" . | nindent 4 }}
 spec:
   parentRefs:
-  - name: envoy-localhost
+  - name: localhost
     namespace: default
     sectionName: https
     port: 8443
   hostnames:
   - jackett.localhost
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: "/"
-    filters: []
-    backendRefs:
+  - backendRefs:
     - name: {{ include "chart.fullname" . }}-jackett
       namespace: {{ .Release.Namespace }}
       port: 9117
-      weight: 1
 ---
 {{- end }}
