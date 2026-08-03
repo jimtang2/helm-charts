@@ -64,7 +64,7 @@ maintainers:
 - email: quentin.bisson@gmail.com
   name: QuentinBisson
   url: https://github.com/QuentinBisson
-name: kube-prometheus-stack
+name: prometheus
 sources:
 - https://github.com/prometheus-community/helm-charts
 - https://github.com/prometheus-operator/kube-prometheus

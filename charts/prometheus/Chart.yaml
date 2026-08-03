@@ -2,10 +2,9 @@ apiVersion: v2
 name: prometheus
 description: Prometheus
 type: application
-version: 0.1.0
+version: 0.0.2
 appVersion: "87.10.1"
 dependencies:
-  - name: kube-prometheus-stack
-    repository: https://prometheus-community.github.io/helm-charts
+  - name: prometheus
+    repository: ""
     version: "87.10.1"
-    condition: kube-prometheus-stack.enabled
