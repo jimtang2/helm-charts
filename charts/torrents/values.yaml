@@ -1,5 +1,3 @@
-enabled: true 
-
 qbittorrent:
   image:
     repository: linuxserver/qbittorrent
@@ -15,9 +13,9 @@ qbittorrent:
 
   volumes:
     config:
-      hostPath: /Users/jimtang/Development/vol/qbittorrent
+      hostPath: ""
     downloads:
-      hostPath: /Users/jimtang/Downloads
+      hostPath: ""
       
   service:
     enabled: true
@@ -52,9 +50,9 @@ jackett:
 
   volumes:
     config:
-      hostPath: /Users/jimtang/Development/vol/jackett
+      hostPath: ""
     downloads:
-      hostPath: /Users/jimtang/Downloads # using emptyDir instead
+      hostPath: ""
 
   service:
     enabled: true

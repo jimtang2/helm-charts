@@ -6,7 +6,7 @@ enabled: true
 persistence:
   volumes:
     elasticsearch: 
-      hostPath: /Users/jimtang/Development/vol/elasticsearch
+      hostPath: ""
 
 # eck operator
 #

@@ -7,13 +7,13 @@ image:
 
 volumes:
   audiobooks:
-    hostPath: "/Users/jimtang/Music/audiobooks"
+    hostPath: ""
   podcasts:
-    hostPath: "/Users/jimtang/Music/podcasts"
+    hostPath: ""
   config:
-    hostPath: "/Users/jimtang/Development/vol/audiobookshelf/config"
+    hostPath: ""
   metadata:
-    hostPath: "/Users/jimtang/Development/vol/audiobookshelf/metadata"
+    hostPath: ""
 
 service:
   enabled: true

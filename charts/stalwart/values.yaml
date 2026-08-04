@@ -29,7 +29,7 @@ pushShard: ""
 recoveryAdmin:
   enabled: true
   username: admin
-  password: "admin"
+  password: "change-me"
 
 # Starts the pods in recovery mode. Suspends mail services and
 # exposes only the management listener on the configured port.
@@ -43,36 +43,17 @@ recoveryMode:
 # store credentials that live in plain text.
 extraEnv: {}
 
+# Extra environment variables injected from the managed Secret.
+# Use this for anything sensitive (database passwords, S3 keys, etc.).
+extraSecretEnv: {}
+
 # config.json contents. Rendered verbatim into the ConfigMap.
 # Only the DataStore object belongs here; every other setting lives
 # in the database once the server is bootstrapped.
 # See /docs/configuration/overview and /docs/ref/object/data-store.
 config:
-  "@type": "PostgreSql"
-  host: postgres.data.svc.cluster.local
-  port: 5432
-  database: stalwart
-  authUsername: postgres
-  authSecret:
-    "@type": "EnvironmentVariable"
-    variableName: STALWART_DB_PASSWORD
-
-persistence:
-  enabled: false
-
-# Extra environment variables injected from the managed Secret.
-# Use this for anything sensitive (database passwords, S3 keys, etc.).
-extraSecretEnv:
-  STALWART_DB_PASSWORD: "password"
-  # STALWART_RECOVERY_MODE: "1"
-  # STALWART_RECOVERY_MODE_PORT: "8080"
-  # STALWART_RECOVERY_MODE_LOG_LEVEL:  "info"
-  # STALWART_RECOVERY_ADMIN: "admin:admin"
-  STALWART_PUBLIC_URL: "https://mail.localhost"
-  # STALWART_HOSTNAME: ""
-  # STALWART_ROLE: ""
-  # STALWART_PUSH_SHARD: ""
-
+  "@type": RocksDb
+  path: /var/lib/stalwart
 
 # Service definition. Change `type` to LoadBalancer when a cloud
 # load balancer should expose the mail ports directly, or keep it
@@ -100,12 +81,19 @@ ingress:
   className: nginx
   annotations: {}
   hosts:
-    - host: mail.lab9.studio
+    - host: mail.example.org
       paths:
         - path: /
           pathType: Prefix
           portName: https
   tls: []
+
+# Persistent volume for the data directory. Required when the
+# DataStore is a local backend such as RocksDB. Can be disabled
+# for deployments that use an external store (PostgreSQL, MySQL,
+# FoundationDB, S3-backed blob store, etc.).
+persistence:
+  enabled: false
 
 # Resource requests and limits for the container.
 resources: {}

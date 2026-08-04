@@ -20,31 +20,48 @@ releases:
   #
   - name: envoy
     chart: ./envoy
+    installed: true
+    suppressDiff: true
   - name: cert-manager
     chart: ./cert-manager
     values:
     - reIssue: false
+    suppressDiff: true
+    installed: true
   - name: postgresql
     chart: ./postgresql
+    installed: true
+    values:
+    - ./postgresql/values.yaml
+    - ../values/postgresql.yaml
   - name: elastic
     chart: ./elastic
+    installed: false
+    values:
+    - ./elastic/values.yaml
+    - ../values/elasticsearch.yaml
   - name: prometheus
     chart: ./prometheus
+    installed: false
   - name: fluent-bit
     chart: ./fluent-bit
     values:
     - ./fluent-bit/values.yaml
     - ../values/fluent-bit.yaml
+    installed: false
   - name: keycloak
     chart: ./keycloak
+    installed: true
   # - name: kafka
   #   chart: ./kafka
   # - name: redis
   #   chart: ./redis
-  # - name: stalwart
-  #   chart: ./stalwart
-  #   condition: enabled
-  #   installed: false
+  - name: stalwart
+    chart: ./stalwart
+    installed: true
+    values:
+    - ./stalwart/values.yaml
+    - ../values/stalwart.yaml
   # - name: oauth2-proxy
   #   chart: ./oauth2-proxy
   # - name: flux
@@ -57,18 +74,28 @@ releases:
   - name: audiobooks
     chart: ./audiobooks
     namespace: internal
+    installed: true
+    values:
+    - ./audiobooks/values.yaml
+    - ../values/audiobookshelf.yaml
   - name: torrents
     chart: ./torrents
     namespace: internal
+    installed: true
+    values:
+    - ./torrents/values.yaml
+    - ../values/torrents.yaml
   - name: nginx-internal
     chart: ./nginx
     namespace: internal
     values:
     - ./nginx/values.yaml
     - ../values/nginx-internal.yaml
-  # - name: headlamp
-  #   chart: ./internal/headlamp
-  #   namespace: internal
+    installed: true
+  - name: headlamp
+    chart: ./internal/headlamp
+    namespace: internal
+    installed: false
   #
   # ns:public
   #
@@ -78,3 +105,4 @@ releases:
     values:
     - ./nginx/values.yaml
     - ../values/nginx-public.yaml
+    installed: true
