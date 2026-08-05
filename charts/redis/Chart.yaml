@@ -1,10 +1,10 @@
 apiVersion: v2
-name: placeholder
-description: A Helm chart for Kubernetes
+name: redis
+description: redis
 type: application
 version: 0.0.1
-appVersion: "1.16.0"
-# dependencies:
-# - name: "chartname"
-#   repository: ""
-#   version: "0.0.0"
+appVersion: 8.8.1
+dependencies:
+- name: common
+  repository: ""
+  version: 2.41.0

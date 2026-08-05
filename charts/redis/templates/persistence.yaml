@@ -1,0 +1,45 @@
+---
+{{- if default false .Values.master.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "common.names.fullname" . }}-master
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/keep-policy: keep
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.volumes.master.storageClass }}
+  hostPath:
+    path: {{ .Values.volumes.master.hostPath }}
+    type: DirectoryOrCreate
+---
+{{- end }}
+{{- if default false .Values.replica.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "common.names.fullname" . }}-replica
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/keep-policy: keep
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.volumes.replica.storageClass }}
+  hostPath:
+    path: {{ .Values.volumes.replica.hostPath }}
+    type: DirectoryOrCreate
+---
+{{- end }}

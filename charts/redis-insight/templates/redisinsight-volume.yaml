@@ -1,0 +1,38 @@
+{{- if .Values.volume.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "redisinsight.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- toYaml .Values.volume.annotations | nindent 4 }}
+spec:
+  storageClassName: {{ .Values.volume.storageClass }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volume.size }}
+{{- end }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "redisinsight.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/keep-policy: keep
+  labels:
+    {{- include "redisinsight.labels" . | nindent 4 }}
+spec:
+  capacity:
+    storage: {{ .Values.volume.size }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.volumes.data.storageClass }}
+  hostPath:
+    path: {{ .Values.volumes.data.hostPath }}
+    type: DirectoryOrCreate
+  
+---
