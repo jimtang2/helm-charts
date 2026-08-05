@@ -36,13 +36,13 @@ metadata:
     {{- include "pgadmin.labels" . | nindent 4 }}
 spec:
   capacity:
-    storage: 10Gi
+    storage: {{ .Values.persistentVolume.size }}
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: {{ .Values.persistentVolume.storageClass }}
+  storageClassName: {{ .Values.volumes.data.storageClass }}
   hostPath:
-    path: {{ .Values.persistentVolume.hostPath }}
+    path: {{ .Values.volumes.data.hostPath }}
     type: DirectoryOrCreate
   claimRef:
     namespace: {{ .Release.Namespace }}
