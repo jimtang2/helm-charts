@@ -14,24 +14,7 @@ spec:
   renewBefore: 720h
   commonName: localhost
   dnsNames:
-  - 127.0.0.1
-  - ::1
-  - localhost
-  - nginx.localhost
-  - audiobook.localhost
-  - torrent.localhost
-  - jackett.localhost
-  - headlamp.localhost
-  - keycloak.localhost
-  - flux.localhost
-  - elasticsearch.localhost
-  - kibana.localhost
-  - grafana.localhost
-  - alertmanager.localhost
-  - prometheus.localhost
-  - logstash.localhost
-  - argocd.localhost
-  - mail.localhost
+    {{- toYaml .Values.dns.localhost | nindent 4 }}
   issuerRef:
     name: localhost
     kind: ClusterIssuer
@@ -54,10 +37,7 @@ spec:
   renewBefore: 720h
   commonName: lab9.studio
   dnsNames:
-  - "login.lab9.studio"
-  - "auth.lab9.studio"
-  - "www.lab9.studio"
-  - "lab9.studio"
+    {{- toYaml .Values.dns.lab9 | nindent 4 }}
   issuerRef:
     name: lab9-studio
     kind: ClusterIssuer
@@ -80,10 +60,7 @@ spec:
   renewBefore: 720h
   commonName: jimtang.me
   dnsNames:
-  - "login.jimtang.me"
-  - "auth.jimtang.me"
-  - "www.jimtang.me"
-  - "jimtang.me"
+    {{- toYaml .Values.dns.jimtang | nindent 4 }}
   issuerRef:
     name: jimtang-me
     kind: ClusterIssuer

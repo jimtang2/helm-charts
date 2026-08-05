@@ -2,14 +2,14 @@
 # - environments.yaml
 
 helmDefaults:
+  cleanupOnFail: true
   createNamespace: true
+  forceConflicts: true
+  serverSide: true
   skipCRDs: false
   skipDeps: true
   skipRefresh: true
-  cleanupOnFail: true
   takeOwnership: true
-  forceConflicts: true
-  serverSide: true
 
 commonLabels:
   install: helmfile
@@ -18,56 +18,98 @@ releases:
   #
   # ns:default
   #
-  - name: envoy
-    chart: ./envoy
-    installed: true
-    suppressDiff: true
   - name: cert-manager
     chart: ./cert-manager
     values:
+    - ./cert-manager/values.yaml
+    - ../values/cert-manager.yaml
     - reIssue: false
     suppressDiff: true
     installed: true
-  - name: postgresql
-    chart: ./postgresql
-    installed: true
-    values:
-    - ./postgresql/values.yaml
-    - ../values/postgresql.yaml
+
   - name: elastic
     chart: ./elastic
     installed: false
     values:
     - ./elastic/values.yaml
     - ../values/elasticsearch.yaml
-  - name: prometheus
-    chart: ./prometheus
-    installed: false
+
+  - name: envoy
+    chart: ./envoy
+    installed: true
+    suppressDiff: true
+    values:
+    - ./envoy/values.yaml
+    - ../values/envoy.yaml
+
   - name: fluent-bit
     chart: ./fluent-bit
     values:
     - ./fluent-bit/values.yaml
     - ../values/fluent-bit.yaml
     installed: false
+
+  - name: flux
+    chart: ./flux
+    installed: false
+
+  - name: kafka
+    chart: ./kafka
+    installed: false
+    values:
+    - ./kafka/values.yaml
+    - ../values/kafka.yaml
+
   - name: keycloak
     chart: ./keycloak
+    values:
+    - ./keycloak/values.yaml
+    - ../values/keycloak.yaml
     installed: true
-  # - name: kafka
-  #   chart: ./kafka
-  # - name: redis
-  #   chart: ./redis
+    needs:
+    - postgresql
+
+  - name: pgadmin
+    chart: ./pgadmin
+    installed: true
+    values:
+    - ./pgadmin/values.yaml
+    - ../values/pgadmin.yaml
+    needs:
+    - postgresql
+
+  - name: postgresql
+    chart: ./postgresql
+    installed: true
+    values:
+    - ./postgresql/values.yaml
+    - ../values/postgresql.yaml
+
+  - name: prometheus
+    chart: ./prometheus
+    installed: false
+
+  - name: redis
+    chart: ./redis
+    installed: true
+    values:
+    - ./redis/values.yaml
+    - ../values/redis.yaml
+
+  - name: redis-insight
+    chart: ./redis-insight
+    installed: true
+    values:
+    - ./redis-insight/values.yaml
+    - ../values/redis-insight.yaml
+
   - name: stalwart
     chart: ./stalwart
-    installed: true
+    installed: false
     values:
     - ./stalwart/values.yaml
     - ../values/stalwart.yaml
-  # - name: oauth2-proxy
-  #   chart: ./oauth2-proxy
-  # - name: flux
-  #   chart: ./flux
-  # - name: jaeger
-  #   chart: ./jaeger
+    suppressDiff: true
   #
   # ns:internal
   #
@@ -78,13 +120,12 @@ releases:
     values:
     - ./audiobooks/values.yaml
     - ../values/audiobookshelf.yaml
-  - name: torrents
-    chart: ./torrents
+
+  - name: headlamp
+    chart: ./internal/headlamp
     namespace: internal
-    installed: true
-    values:
-    - ./torrents/values.yaml
-    - ../values/torrents.yaml
+    installed: false
+
   - name: nginx-internal
     chart: ./nginx
     namespace: internal
@@ -92,10 +133,14 @@ releases:
     - ./nginx/values.yaml
     - ../values/nginx-internal.yaml
     installed: true
-  - name: headlamp
-    chart: ./internal/headlamp
+
+  - name: torrents
+    chart: ./torrents
     namespace: internal
-    installed: false
+    installed: true
+    values:
+    - ./torrents/values.yaml
+    - ../values/torrents.yaml
   #
   # ns:public
   #

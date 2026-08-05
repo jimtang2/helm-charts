@@ -7,17 +7,11 @@ metadata:
   labels:
     {{- include "chart.labels" . | nindent 4 }}
 spec:
-  parentRefs:
-  - name: localhost
-    namespace: default
-    sectionName: https
-    port: 8443
+  parentRefs: 
+    {{- toYaml .Values.httproute.parentRefs | nindent 4}}
   hostnames:
-  - keycloak.localhost
+    {{- toYaml .Values.httproute.hostnames | nindent 4}}
   rules:
-  - backendRefs:
-    - name: {{ include "chart.fullname" . }}-http
-      namespace: {{ .Release.Namespace }}
-      port: 8080
+    {{- toYaml .Values.httproute.rules | nindent 4}}
 ---
 {{- end }}

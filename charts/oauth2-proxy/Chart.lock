@@ -1,6 +1,0 @@
-dependencies:
-- name: kubernetes
-  repository: file://../../../pkg/oauth2-proxy/contrib/local-environment/kubernetes
-  version: 7.18.0
-digest: sha256:1c6cfd51f875aca77f90f6feea11aed20e59a3db994af3e5d63e438350a06543
-generated: "2026-07-31T11:47:53.509131+02:00"

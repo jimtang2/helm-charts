@@ -1,6 +1,0 @@
-dependencies:
-- name: keycloakx
-  repository: file://../../../pkg/codecentric_helm-charts/charts/keycloakx
-  version: 7.2.2
-digest: sha256:17afe79cc9fbfb309302beec7751066b4798e6dc90b5ae4c1b17abebdec2fa10
-generated: "2026-07-26T13:50:53.238746+02:00"

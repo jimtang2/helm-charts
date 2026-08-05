@@ -14,7 +14,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-hostpath
+  storageClassName: {{ .Values.volumes.pgdata.storageClass }}
   hostPath:
     path: {{ .Values.volumes.pgdata.hostPath }}
     type: DirectoryOrCreate
@@ -36,4 +36,4 @@ spec:
   resources:
     requests:
       storage: 20Gi
-  storageClassName: local-hostpath
+  storageClassName: {{ .Values.volumes.pgdata.storageClass }}

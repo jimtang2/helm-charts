@@ -100,12 +100,18 @@ spec:
             - name: data
               mountPath: /var/lib/stalwart
             {{- end }}
+            - name: cert-manager-tls
+              mountPath: {{ .Values.tls.mountPath }}
+              readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: config
           configMap:
             name: {{ include "chart.fullname" . }}-config
+        - name: cert-manager-tls
+          secret:
+            secretName: {{ .Values.tls.secretName }}
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:

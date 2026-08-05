@@ -25,14 +25,7 @@ spec:
         image: "{{ .Values.jackett.image.repository }}:{{ .Values.jackett.image.tag }}"
         imagePullPolicy: {{ .Values.jackett.image.pullPolicy }}
         env:
-        - name: PUID
-          value: "{{ .Values.jackett.env.PUID }}"
-        - name: PGID
-          value: "{{ .Values.jackett.env.PGID }}"
-        - name: TZ
-          value: "{{ .Values.jackett.env.TZ }}"
-        - name: AUTO_UPDATE
-          value: "{{ .Values.jackett.env.AUTO_UPDATE }}"
+        {{- toYaml .Values.jackett.env | nindent 8 }}
         ports:
         - containerPort: 9117
           name: webui
