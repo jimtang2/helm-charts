@@ -1,0 +1,51 @@
+{{- if and (eq .Values.workload.kind "Deployment") .Values.persistentVolume.enabled (not .Values.persistentVolume.existingClaim) }}
+{{- $fullName := include "pgadmin.fullname" . -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ include "pgadmin.namespaceName" . }}
+  labels:
+    {{- include "pgadmin.labels" . | nindent 4 }}
+  {{- with .Values.persistentVolume.annotations }}
+  annotations: {{- include "pgadmin.tplToMap" (dict "toMap" . "context" $) | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- .Values.persistentVolume.accessModes | toYaml | nindent 4 }}
+{{- if .Values.persistentVolume.storageClass }}
+{{- if (eq "-" .Values.persistentVolume.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.persistentVolume.storageClass }}"
+{{- end }}
+{{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.persistentVolume.size }}
+{{- end }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "pgadmin.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/keep-policy: keep
+  labels:
+    {{- include "pgadmin.labels" . | nindent 4 }}
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.persistentVolume.storageClass }}
+  hostPath:
+    path: {{ .Values.persistentVolume.hostPath }}
+    type: DirectoryOrCreate
+  claimRef:
+    namespace: {{ .Release.Namespace }}
+    name: {{ include "pgadmin.fullname" . }}
+  
+---
