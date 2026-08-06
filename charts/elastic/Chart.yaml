@@ -2,7 +2,7 @@ apiVersion: v2
 name: elastic
 description: the elastic stack
 type: application
-version: 0.0.1
+version: 0.1.0
 appVersion: "0.19.1"
 dependencies:
   - name: eck-operator
