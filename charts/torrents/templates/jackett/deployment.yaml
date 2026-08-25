@@ -25,7 +25,9 @@ spec:
         image: "{{ .Values.jackett.image.repository }}:{{ .Values.jackett.image.tag }}"
         imagePullPolicy: {{ .Values.jackett.image.pullPolicy }}
         env:
-        {{- toYaml .Values.jackett.env | nindent 8 }}
+          {{- toYaml .Values.jackett.env | nindent 8 }}
+        resources:
+          {{- toYaml .Values.jackett.resources | nindent 10 }}
         ports:
         - containerPort: 9117
           name: webui

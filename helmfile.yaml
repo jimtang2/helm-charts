@@ -1,0 +1,246 @@
+# bases:
+# - environments.yaml
+#
+helmDefaults:
+  cleanupOnFail: true
+  createNamespace: true
+  forceConflicts: true
+  serverSide: true
+  skipCRDs: false
+  skipDeps: true
+  skipRefresh: true
+  takeOwnership: true
+
+commonLabels:
+  helm.sh/installed-by: helmfile
+
+releases:
+  #
+  # ns:default
+  #
+  - name: secrets
+    chart: ./charts/secrets
+    installed: true
+    values:
+    - ./_values/secrets.yaml
+    labels:
+      group: config
+
+  - name: cert-manager
+    chart: ./charts/cert-manager
+    suppressDiff: true
+    installed: true
+    values:
+    - reIssue: false
+    - ./charts/cert-manager/values.yaml
+    - ./_values/cert-manager.yaml
+    labels:
+      name: cert-manager
+      group: gateway
+
+  - name: elastic
+    chart: ./charts/elastic
+    installed: true
+    values:
+    - ./charts/elastic/values.yaml
+    - ./_values/elasticsearch.yaml
+    labels:
+      name: elastic
+      group: log
+
+  - name: envoy
+    chart: ./charts/envoy
+    installed: true
+    suppressDiff: true
+    values:
+    - ./charts/envoy/values.yaml
+    - ./_values/envoy.yaml
+    labels:
+      group: gateway
+
+  - name: fluent-bit
+    chart: ./charts/fluent-bit
+    values:
+    - ./charts/fluent-bit/values.yaml
+    - ./_values/fluent-bit.yaml
+    installed: true
+    labels:
+      group: log
+
+  - name: kafka
+    chart: ./charts/kafka
+    installed: false
+    values:
+    - ./charts/kafka/values.yaml
+    - ./_values/kafka.yaml
+    labels:
+      name: kafka
+
+  - name: keycloak
+    chart: ./charts/keycloak
+    installed: true
+    values:
+    - ./charts/keycloak/values.yaml
+    - ./_values/keycloak.yaml
+    labels:
+      name: keycloak
+      group: auth
+
+  - name: postgresql
+    chart: ./charts/postgresql
+    installed: true
+    values:
+    - ./charts/postgresql/values.yaml
+    - ./_values/postgresql.yaml
+    labels:
+      name: postgresql
+
+  - name: prometheus
+    chart: ./charts/prometheus
+    installed: false
+    labels:
+      name: prometheus
+      group: log
+
+  - name: redis
+    chart: ./charts/redis
+    installed: true
+    values:
+    - ./charts/redis/values.yaml
+    - ./_values/redis.yaml
+    labels:
+      name: redis
+
+  - name: stalwart
+    chart: ./charts/stalwart
+    installed: false
+    values:
+    - ./charts/stalwart/values.yaml
+    - ./_values/stalwart.yaml
+    suppressDiff: true
+    labels:
+      name: stalwart
+      group: mail
+  #
+  # ns:apps
+  #
+  - name: audiobooks
+    chart: ./charts/audiobooks
+    namespace: apps
+    installed: true
+    values:
+    - ./charts/audiobooks/values.yaml
+    - ./_values/audiobookshelf.yaml
+    labels:
+      name: audiobooks
+      group: apps
+
+  - name: torrents
+    chart: ./charts/torrents
+    namespace: apps
+    installed: true
+    values:
+    - ./charts/torrents/values.yaml
+    - ./_values/torrents.yaml
+    labels:
+      name: torrents
+      group: apps
+
+  - name: headlamp
+    chart: ./charts/headlamp
+    namespace: apps
+    installed: true
+    values:
+    - ./charts/headlamp/values.yaml
+    - ./_values/headlamp.yaml
+    labels:
+      name: headlamp
+      group: headlamp
+
+  - name: headlamp-oauth2-proxy
+    chart: ./charts/oauth2-proxy
+    namespace: apps
+    installed: true
+    values:
+    - ./charts/oauth2-proxy/values.yaml
+    - ./_values/oauth2-proxy-headlamp.yaml
+    labels:
+      name: oauth2-proxy-headlamp
+      group: headlamp
+
+  - name: pgadmin
+    chart: ./charts/pgadmin
+    namespace: apps
+    installed: true
+    values:
+    - ./charts/pgadmin/values.yaml
+    - ./_values/pgadmin.yaml
+    labels:
+      name: pgadmin
+
+  - name: redis-insight
+    chart: ./charts/redis-insight
+    namespace: apps
+    installed: true
+    values:
+    - ./charts/redis-insight/values.yaml
+    - ./_values/redis-insight.yaml
+    labels:
+      name: redis-insight
+  #
+  # ns:dev
+  #
+  - name: flux
+    chart: ./charts/flux
+    namespace: dev
+    installed: true
+    values:
+    - ./charts/flux/values.yaml
+    - ./_values/flux.yaml
+    labels:
+      name: flux
+
+  # nginx for dev app file serve
+  - name: nginx-app
+    chart: ./charts/nginx
+    namespace: dev
+    installed: true
+    values:
+    - ./charts/nginx/values.yaml
+    - ./_values/nginx-app.yaml
+    labels:
+      name: nginx-app
+      group: nginx-app
+
+  - name: nginx-app-oauth2-proxy
+    chart: ./charts/oauth2-proxy
+    namespace: dev
+    installed: true
+    values:
+    - ./charts/oauth2-proxy/values.yaml
+    - ./_values/oauth2-proxy-nginx-app.yaml
+    labels:
+      name: oauth2-proxy-nginx-app
+      group: nginx-app
+
+  # nginx for public landing page
+  - name: nginx-public
+    chart: ./charts/nginx
+    namespace: dev
+    installed: true
+    values:
+    - ./charts/nginx/values.yaml
+    - ./_values/nginx-public.yaml
+    labels:
+      name: nginx-public
+
+  # nginx for static file serve
+  - name: nginx-static
+    chart: ./charts/nginx
+    namespace: dev
+    installed: true
+    values:
+    - ./charts/nginx/values.yaml
+    - ./_values/nginx-static.yaml
+    labels:
+      name: nginx-static

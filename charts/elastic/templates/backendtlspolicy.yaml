@@ -1,0 +1,19 @@
+{{- $root := . }}
+{{- $namespace := .Release.Namespace }}
+---
+{{- range $policy := .Values.backendTLSPolicies }}
+# BackendTLSPolicy is needed to accept the auto-generated  TLS certificate by eck-stack chart presented to envoy proxy
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+  name: {{ $policy.name }}
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "chart.labels" $root | nindent 4 }}
+spec:
+  targetRefs:
+  {{- toYaml $policy.targetRefs | nindent 4 }}
+  validation:
+  {{- toYaml $policy.validation | nindent 4 }}
+---
+{{- end }}

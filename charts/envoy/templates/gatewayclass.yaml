@@ -1,3 +1,5 @@
+{{ $gatewayClassName := (.Values.gatewayClassName | default (include "chart.fullname" .)) }}
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
@@ -7,33 +9,3 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   controllerName: gateway.envoyproxy.io/gatewayclass-controller
-  parametersRef:
-    group: gateway.envoyproxy.io
-    kind: EnvoyProxy
-    name: {{ .Values.gatewayClassName | default (include "chart.fullname" .) }}
-    namespace: {{ .Release.Namespace }}
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: EnvoyProxy
-metadata:
-  name: {{ .Values.gatewayClassName | default (include "chart.fullname" .) }}
-  namespace: {{ .Release.Namespace }}
-  labels:
-    {{- include "chart.labels" . | nindent 4 }}
-spec:
-  logging:
-    level:
-      default: info
-  telemetry:
-    metrics:
-      prometheus:
-        disable: true
-  provider:
-    type: Kubernetes
-    kubernetes:
-      envoyService:
-        type: LoadBalancer
-        name: {{ .Values.gatewayClassName | default (include "chart.fullname" .) }}
-        labels:
-          {{- include "chart.labels" . | nindent 10 }}
----

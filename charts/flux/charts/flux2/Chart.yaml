@@ -1,0 +1,6 @@
+apiVersion: v2
+name: flux2
+description: flux2
+type: application
+version: "2.9.1"
+appVersion: "2.9.1"

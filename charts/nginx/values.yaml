@@ -3,5 +3,6 @@ image:
   pullPolicy: IfNotPresent
   tag: "1.31-alpine"
 
-httproute:
-  enabled: false
+httpRoutes: []
+securityPolicies: []
+referenceGrants: []

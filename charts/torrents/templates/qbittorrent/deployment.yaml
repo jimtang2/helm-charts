@@ -21,6 +21,8 @@ spec:
       - name: qbittorrent
         image: "{{ .Values.qbittorrent.image.repository }}:{{ .Values.qbittorrent.image.tag }}"
         imagePullPolicy: {{ .Values.qbittorrent.image.pullPolicy }}
+        resources:
+          {{- toYaml .Values.qbittorrent.resources | nindent 10 }}
         env:
           {{- toYaml .Values.jackett.env | nindent 8 }}
         ports:

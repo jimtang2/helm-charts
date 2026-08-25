@@ -1,0 +1,20 @@
+{{ $namespace := .Release.Namespace}}
+{{ $root := . }}
+---
+{{- range $route := .Values.httpRoutes }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $route.name }}
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "chart.labels" $root | nindent 4 }}
+spec:
+  parentRefs: 
+    {{- toYaml $route.parentRefs | nindent 4 }}
+  hostnames: 
+    {{- toYaml $route.hostnames | nindent 4 }}
+  rules: 
+    {{- toYaml $route.rules | nindent 4 }}
+---
+{{- end }}

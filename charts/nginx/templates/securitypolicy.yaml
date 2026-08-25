@@ -1,0 +1,14 @@
+{{ $chartName := (include "chart.fullname" .) }}
+{{ $namespace := .Release.Namespace}}
+{{ $root := . }}
+---
+{{- range $policy := .Values.securityPolicies }}
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: {{ $policy.name }}
+  namespace: {{ $namespace }}
+spec:
+  {{- toYaml $policy.spec | nindent 2 }}
+---
+{{- end }}

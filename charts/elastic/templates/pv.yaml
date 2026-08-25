@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-hostpath
+  storageClassName: elastic
   hostPath:
-    path: {{ .Values.persistence.volumes.elasticsearch.hostPath }}
+    path: {{ .Values.volumes.elasticsearch.hostPath }}
     type: DirectoryOrCreate

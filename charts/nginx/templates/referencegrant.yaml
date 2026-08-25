@@ -1,0 +1,19 @@
+{{ $namespace := .Release.Namespace}}
+{{ $root := . }}
+---
+{{- range $grant := .Values.referenceGrants }}
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: {{ $grant.name }}
+  namespace: {{ $grant.namespace }}
+  labels:
+    {{- include "chart.labels" $root | nindent 4 }}
+spec:
+  from:
+    {{- toYaml $grant.from | nindent 4 }}
+  to:
+    {{- toYaml $grant.to | nindent 4 }}
+---
+{{- end }}
+

@@ -1,0 +1,22 @@
+{{- if .Values.tcproute.enabled }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: TCPRoute
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  parentRefs:
+  - name: localhost
+    namespace: default
+    sectionName: redis
+    port: 6379
+  rules:
+  - name: redis
+    backendRefs:
+    - name: {{ include "common.names.fullname" . }}-master
+      namespace: {{ .Release.Namespace }}
+      port: 6379
+---
+{{- end }}

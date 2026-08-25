@@ -1,17 +1,21 @@
-{{- if .Values.httproute.enabled }}
+{{ $chartName := (include "chart.fullname" .) }}
+{{ $namespace := .Release.Namespace}}
+{{ $root := . }}
+---
+{{- range $route := .Values.httpRoutes }}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: {{ include "chart.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ $route.name }}
+  namespace: {{ $namespace }}
   labels:
-    {{- include "chart.labels" . | nindent 4 }}
+    {{- include "chart.labels" $root | nindent 4 }}
 spec:
   parentRefs: 
-    {{- toYaml .Values.httproute.parentRefs | nindent 2}}
+    {{- toYaml $route.parentRefs | nindent 4 }}
   hostnames: 
-    {{- toYaml .Values.httproute.hostnames | nindent 2}}
+    {{- toYaml $route.hostnames | nindent 4 }}
   rules: 
-    {{- toYaml .Values.httproute.rules | nindent 2}}
+    {{- toYaml $route.rules | nindent 4 }}
 ---
 {{- end }}
