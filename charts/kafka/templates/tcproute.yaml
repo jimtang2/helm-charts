@@ -1,0 +1,22 @@
+{{- if .Values.tcproute.enabled }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: TCPRoute
+metadata:
+  name: {{ include "chart.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  parentRefs:
+  - name: localhost
+    namespace: default
+    sectionName: kafka
+    port: 9092
+  rules:
+  - name: kafka
+    backendRefs:
+    - name: {{ include "chart.fullname" . }}
+      namespace: {{ .Release.Namespace }}
+      port: 9092
+---
+{{- end }}

@@ -9,6 +9,6 @@ secrets
 src
 tmp
 vol
-_values
+charts/**/values-*.yaml
 
 src/nux

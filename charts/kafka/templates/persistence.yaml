@@ -1,0 +1,28 @@
+{{ $root := . }}
+{{ $namespace := .Release.Namespace }}
+---
+{{- range $volume := .Values.volumes}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "chart.fullname" $root }}-{{ $volume.name }}
+  namespace: {{ $namespace }}
+  annotations:
+    helm.sh/keep-policy: keep
+  labels:
+    {{- include "chart.labels" $root | nindent 4 }}
+spec:
+  capacity:
+    storage: {{ $volume.storage }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ $volume.storageClass }}
+  hostPath:
+    path: {{ $volume.hostPath }}
+    type: DirectoryOrCreate
+  # claimRef:
+  #   namespace: {{ $namespace }}
+  #   name: {{ include "chart.fullname" $root }}
+---
+{{- end }}  
