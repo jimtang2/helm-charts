@@ -1,14 +1,3 @@
 .DS_Store
 *.tgz
-.vscode
-
-bin
-pkg
-scripts
-secrets
-src
-tmp
-vol
-charts/**/values-*.yaml
-
-src/nux
+values-*.yaml

@@ -232,7 +232,7 @@ releases:
     installed: true
     values:
       - ./nginx/values.yaml
-      - ./nginx/values-public.yamll
+      - ./nginx/values-public.yaml
     labels:
       name: nginx-public
 
@@ -243,6 +243,6 @@ releases:
     installed: true
     values:
       - ./nginx/values.yaml
-      - ./nginx/values-static.yamll
+      - ./nginx/values-static.yaml
     labels:
       name: nginx-static
