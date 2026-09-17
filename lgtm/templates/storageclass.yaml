@@ -1,0 +1,21 @@
+{{- $classes := dict -}}
+{{- range .Values.persistentVolumes }}
+{{- if .storageClassName }}
+{{- $_ := set $classes .storageClassName true -}}
+{{- end }}
+{{- end }}
+{{- range $name, $_ := $classes }}
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ $name }}
+  labels:
+    app.kubernetes.io/name: {{ $name }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+provisioner: kubernetes.io/no-provisioner
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+allowVolumeExpansion: false
+{{- end }}

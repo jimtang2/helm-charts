@@ -67,6 +67,15 @@ releases:
     labels:
       group: log
 
+  - name: lgtm
+    chart: ./lgtm
+    values:
+      - ./lgtm/values.yaml
+      - ./lgtm/values-local.yaml
+    installed: true
+    labels:
+      group: log
+
   - name: kafka
     chart: ./kafka
     installed: true

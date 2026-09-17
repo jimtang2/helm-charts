@@ -1,0 +1,53 @@
+apiVersion: v2
+name: lgtm
+description: |
+  LGTM observability stack: Loki, Grafana, Tempo, Pyroscope, and Prometheus
+  with optional OpenTelemetry Operator for collector management.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://github.com/your-org/lgtm-helm-chart
+sources:
+  - https://github.com/prometheus-community/helm-charts
+  - https://github.com/grafana-community/helm-charts
+  - https://github.com/open-telemetry/opentelemetry-helm-charts
+maintainers:
+  - name: Jimmy Tang
+    email: jimmy.tang.8192@gmail.com
+
+dependencies:
+  # Prometheus + Grafana + node-exporter + kube-state-metrics
+  - name: kube-prometheus-stack
+    version: "90.0.0"
+    repository: "https://prometheus-community.github.io/helm-charts"
+    condition: kube-prometheus-stack.enabled
+
+  # Loki (logs)
+  - name: loki
+    version: "18.7.6"
+    repository: "https://grafana-community.github.io/helm-charts"
+    condition: loki.enabled
+
+  # Tempo (traces)
+  - name: tempo
+    version: "2.2.3"
+    repository: "https://grafana-community.github.io/helm-charts"
+    condition: tempo.enabled
+
+  # Pyroscope (profiles)
+  - name: pyroscope
+    version: "2.3.1"
+    repository: "https://grafana.github.io/helm-charts"
+    condition: pyroscope.enabled
+
+  # OpenTelemetry Operator
+  - name: opentelemetry-operator
+    version: "0.123.0"
+    repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
+    condition: opentelemetry.operator.enabled
+
+  # OpenTelemetry Collector
+  - name: opentelemetry-collector
+    version: "0.173.1"
+    repository: "https://open-telemetry.github.io/opentelemetry-helm-charts"
+    condition: opentelemetry-collector.enabled
