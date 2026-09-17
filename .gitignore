@@ -1,4 +1,4 @@
 .DS_Store
 *.tgz
 values-*.yaml
-charts/*
+charts/**
