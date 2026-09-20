@@ -6,7 +6,8 @@ metadata:
   name: {{ include "audiobookshelf.fullname" $ }}-{{ $name }}
   labels:
     {{- include "audiobookshelf.labels" $ | nindent 4 }}
-    {{- with $volume.labels }}
+  annotations:
+    {{- with $volume.annotations }}
       {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:

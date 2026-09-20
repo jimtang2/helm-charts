@@ -18,35 +18,35 @@ service:
   port: 80
 
 persistence:
-  # labels on corresponding PVC is 
+  # annotations on corresponding PVC are handy :)
   audiobooks:
     enabled: true
     accessModes: [ReadWriteOnce]
     size: 10Gi
     mountPath: /audiobooks
     storageClass: ""
-    labels: {}
+    annotations: {}
   podcasts:
     enabled: true
     accessModes: [ReadWriteOnce]
     size: 10Gi
     mountPath: /podcasts
     storageClass: ""
-    labels: {}
+    annotations: {}
   config:
     enabled: true
     accessModes: [ReadWriteOnce]
     size: 1Gi
     mountPath: /config
     storageClass: ""
-    labels: {}
+    annotations: {}
   metadata:
     enabled: true
     accessModes: [ReadWriteOnce]
     size: 5Gi
     mountPath: /metadata
     storageClass: ""
-    labels: {}
+    annotations: {}
 
 env:
   - name: TZ
