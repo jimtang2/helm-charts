@@ -14,6 +14,7 @@ serviceAccount:
   name: ""
 
 service:
+  enabled: true
   type: ClusterIP
   port: 80
 
@@ -71,3 +72,8 @@ podSecurityContext: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
+
+gateway:
+  enabled: false
+  parentRefs: []
+  hostnames: []
