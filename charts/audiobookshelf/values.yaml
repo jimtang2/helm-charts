@@ -1,0 +1,73 @@
+enabled: true
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/advplyr/audiobookshelf
+  tag: "2.35.1"
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+persistence:
+  # labels on corresponding PVC is 
+  audiobooks:
+    enabled: true
+    accessModes: [ReadWriteOnce]
+    size: 10Gi
+    mountPath: /audiobooks
+    storageClass: ""
+    labels: {}
+  podcasts:
+    enabled: true
+    accessModes: [ReadWriteOnce]
+    size: 10Gi
+    mountPath: /podcasts
+    storageClass: ""
+    labels: {}
+  config:
+    enabled: true
+    accessModes: [ReadWriteOnce]
+    size: 1Gi
+    mountPath: /config
+    storageClass: ""
+    labels: {}
+  metadata:
+    enabled: true
+    accessModes: [ReadWriteOnce]
+    size: 5Gi
+    mountPath: /metadata
+    storageClass: ""
+    labels: {}
+
+env:
+  - name: TZ
+    value: UTC
+
+probes:
+  liveness:
+    httpGet:
+      path: /
+      port: http
+  readiness:
+    httpGet:
+      path: /
+      port: http
+
+resources: 
+  limits:
+    memory: 512Mi
+    cpu: 1
+securityContext: {}
+podSecurityContext: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}

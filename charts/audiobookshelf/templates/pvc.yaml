@@ -1,0 +1,23 @@
+{{- range $name, $volume := .Values.persistence }}
+{{- if $volume.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "audiobookshelf.fullname" $ }}-{{ $name }}
+  labels:
+    {{- include "audiobookshelf.labels" $ | nindent 4 }}
+    {{- with $volume.labels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  accessModes:
+    {{- toYaml $volume.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ $volume.size | quote }}
+  {{- with $volume.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+---
+{{- end }}
+{{- end }}
