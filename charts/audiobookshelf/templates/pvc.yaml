@@ -16,7 +16,7 @@ spec:
   resources:
     requests:
       storage: {{ $volume.size | quote }}
-  storageClassName: {{ $volume.storageClass | default $.Values.persistence.defaultStorageClass | quote }}
+  storageClassName: {{ $volume.storageClass | default $.Values.defaultStorageClass | quote }}
 ---
 {{- end }}
 {{- end }}

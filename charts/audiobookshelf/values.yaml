@@ -18,8 +18,9 @@ service:
   type: ClusterIP
   port: 80
 
+defaultStorageClass: hostpath
+
 persistence:
-  defaultStorageClass: hostpath
   # annotations on corresponding PVC are handy :)
   # eg, use with rancher local-path provisioner to compose pathPattern
   audiobooks:
