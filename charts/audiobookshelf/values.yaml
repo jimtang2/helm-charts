@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/advplyr/audiobookshelf
-  tag: "2.35.1"
+  tag: ""
   pullPolicy: IfNotPresent
 
 serviceAccount:
@@ -19,7 +19,9 @@ service:
   port: 80
 
 persistence:
+  defaultStorageClass: hostpath
   # annotations on corresponding PVC are handy :)
+  # eg, use with rancher local-path provisioner to compose pathPattern
   audiobooks:
     enabled: true
     accessModes: [ReadWriteOnce]
