@@ -30,3 +30,6 @@ jobs:
         with:
           charts_dir: charts
           config: cr.yaml
+          version: v1.6.1
+          mark_as_latest: true
+          packages_with_index: true
