@@ -2,10 +2,6 @@
 
 ## Usage
 
-
-
-## Charts
-
 ### Audiobookshelf
 
 ### QBT
