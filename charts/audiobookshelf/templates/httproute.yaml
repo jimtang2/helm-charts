@@ -12,10 +12,10 @@ spec:
     {{- toYaml .Values.gateway.hostnames | nindent 4 }}
   rules:
     - matches:
-        - path:
-            type: PathPrefix
-            value: /
+      - path:
+          type: PathPrefix
+          value: /
       backendRefs:
         - name: {{ include "audiobookshelf.fullname" . }}
-          port: 80
+          port: {{ .Values.service.port }}
 {{- end }}
