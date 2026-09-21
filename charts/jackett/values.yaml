@@ -1,0 +1,76 @@
+enabled: true
+
+replicaCount: 1
+
+image:
+  repository: linuxserver/jackett
+  tag: ""
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    webui:
+      port: 9117
+      protocol: TCP
+
+defaultStorageClass: hostpath
+
+persistence:
+  # annotations on corresponding PVC are handy :)
+  # eg, use with rancher local-path provisioner to compose pathPattern
+  config:
+    enabled: true
+    accessModes: [ReadWriteOnce]
+    size: 1Gi
+    mountPath: /config
+    storageClass: ""
+    annotations: {}
+  downloads:
+    enabled: true
+    accessModes: [ReadWriteOnce]
+    size: 5Gi
+    mountPath: /downloads
+    storageClass: ""
+    annotations: {}
+
+env:
+  - name: TZ
+    value: UTC
+
+probes:
+  liveness:
+    tcpSocket:
+      port: webui
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readiness:
+    tcpSocket:
+      port: webui
+    initialDelaySeconds: 10
+    periodSeconds: 10
+
+resources: 
+  limits:
+    memory: 128Mi
+    cpu: 250m
+securityContext: {}
+podSecurityContext: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+gateway:
+  enabled: false
+  parentRefs: []
+  hostnames: []
+
