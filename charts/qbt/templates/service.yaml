@@ -1,0 +1,18 @@
+{{- if .Values.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "qbt.fullname" $ }}
+  labels:
+    {{- include "qbt.labels" $ | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    {{- include "qbt.selectorLabels" $ | nindent 4 }}
+  ports:
+    {{- range $name, $port := .Values.service.ports }}
+    - name: {{ $name }}
+      port: {{ $port.port }}
+      protocol: {{ $port.protocol }}
+    {{- end }}
+{{- end }}

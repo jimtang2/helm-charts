@@ -1,0 +1,79 @@
+enabled: true
+
+replicaCount: 1
+
+image:
+  repository: linuxserver/qbittorrent
+  tag: ""
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+service:
+  enabled: true
+  ports:
+    webui:
+      type: ClusterIP
+      port: 8080
+      protocol: TCP
+    torrent-tcp: 
+      type: ClusterIP
+      port: 6881
+      protocol: TCP
+    torrent-udp: 
+      type: ClusterIP
+      port: 6881
+      protocol: UDP
+
+defaultStorageClass: hostpath
+
+persistence:
+  # annotations on corresponding PVC are handy :)
+  # eg, use with rancher local-path provisioner to compose pathPattern
+  config:
+    enabled: true
+    accessModes: [ReadWriteOnce]
+    size: 1Gi
+    mountPath: /config
+    storageClass: ""
+    annotations: {}
+  downloads:
+    enabled: true
+    accessModes: [ReadWriteOnce]
+    size: 200Gi
+    mountPath: /downloads
+    storageClass: ""
+    annotations: {}
+
+env:
+  - name: TZ
+    value: UTC
+
+probes:
+  liveness:
+    httpGet:
+      path: /
+      port: webui
+  readiness:
+    httpGet:
+      path: /
+      port: webui
+
+resources: 
+  limits:
+    memory: 512Mi
+    cpu: 1
+securityContext: {}
+podSecurityContext: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+gateway:
+  enabled: false
+  parentRefs: []
+  hostnames: []
