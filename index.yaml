@@ -17,4 +17,21 @@ entries:
     urls:
     - audiobookshelf-0.0.6.tgz
     version: 0.0.6
-generated: "2026-09-21T17:43:40.090022137Z"
+  qbt:
+  - apiVersion: v2
+    appVersion: 5.2.3
+    created: "2026-09-21T18:10:30.612903199Z"
+    description: A chart for qbt server
+    digest: 5a2152579ba645d7b7b2817e8d594de9b0bb1a5e622df211857e2a6731a36321
+    home: https://github.com/jimtang2/helm-charts/tree/main/charts/qbt
+    maintainers:
+    - name: jimtang2
+      url: https://github.com/jimtang2
+    name: qbt
+    sources:
+    - https://github.com/qbittorrent/qBittorrent/
+    type: application
+    urls:
+    - qbt-0.0.11.tgz
+    version: 0.0.11
+generated: "2026-09-21T18:10:30.612905732Z"
