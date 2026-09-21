@@ -36,6 +36,22 @@ entries:
   jackett:
   - apiVersion: v2
     appVersion: 0.24.2631
+    created: "2026-09-21T18:44:39.196985991Z"
+    description: A chart for Jackett torrent proxy server
+    digest: d1c14cac446b2a80c8dc9a2dec9fd62627d1bc87328be056e377dcd30fde9e04
+    home: https://github.com/jimtang2/helm-charts/tree/main/charts/jackett
+    maintainers:
+    - name: jimtang2
+      url: https://github.com/jimtang2
+    name: jackett
+    sources:
+    - https://github.com/Jackett/Jackett
+    type: application
+    urls:
+    - https://github.com/jimtang2/helm-charts/releases/download/jackett-0.0.14/jackett-0.0.14.tgz
+    version: 0.0.14
+  - apiVersion: v2
+    appVersion: 0.24.2631
     created: "2026-09-21T18:38:41.796196164Z"
     description: A chart for Jackett torrent proxy server
     digest: 750cc54d60fbd03e0039f83403f82832ed15a0f4f8d37682af2c12548f8cdd1e
@@ -51,6 +67,22 @@ entries:
     - https://github.com/jimtang2/helm-charts/releases/download/jackett-0.0.13/jackett-0.0.13.tgz
     version: 0.0.13
   qbt:
+  - apiVersion: v2
+    appVersion: 5.2.3
+    created: "2026-09-21T18:44:39.396346496Z"
+    description: A chart for qbt server
+    digest: 3f327f799eafd9209c189839ab784dc572adcb26aca3eb169d1a79038a05fa8b
+    home: https://github.com/jimtang2/helm-charts/tree/main/charts/qbt
+    maintainers:
+    - name: jimtang2
+      url: https://github.com/jimtang2
+    name: qbt
+    sources:
+    - https://github.com/qbittorrent/qBittorrent/
+    type: application
+    urls:
+    - https://github.com/jimtang2/helm-charts/releases/download/qbt-0.0.14/qbt-0.0.14.tgz
+    version: 0.0.14
   - apiVersion: v2
     appVersion: 5.2.3
     created: "2026-09-21T18:38:41.999391007Z"
@@ -83,4 +115,4 @@ entries:
     urls:
     - qbt-0.0.11.tgz
     version: 0.0.11
-generated: "2026-09-21T18:38:41.999407688Z"
+generated: "2026-09-21T18:44:39.396362841Z"
