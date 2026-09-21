@@ -2,7 +2,7 @@ apiVersion: v2
 name: qbt
 description: A chart for qbt server
 type: application
-version: 0.0.1
+version: 0.0.10
 appVersion: "5.2.3"
 
 home: https://github.com/jimtang2/helm-charts/tree/main/charts/qbt

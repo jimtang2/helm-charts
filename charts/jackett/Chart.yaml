@@ -2,7 +2,7 @@ apiVersion: v2
 name: jackett
 description: A chart for Jackett torrent proxy server
 type: application
-version: 0.0.1
+version: 0.0.10
 appVersion: "0.24.2631"
 
 home: https://github.com/jimtang2/helm-charts/tree/main/charts/jackett
