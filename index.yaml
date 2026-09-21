@@ -3,6 +3,22 @@ entries:
   audiobookshelf:
   - apiVersion: v2
     appVersion: 2.36.1
+    created: "2026-09-21T18:38:41.642564753Z"
+    description: A chart for audiobookshelf server
+    digest: 6ebaf74f7a00ca3d22487cd37dcaa35897f90a67f85784b95bb0c62cb0623d36
+    home: https://github.com/jimtang2/helm-charts/tree/main/charts/audiobookshelf
+    maintainers:
+    - name: jimtang2
+      url: https://github.com/jimtang2
+    name: audiobookshelf
+    sources:
+    - https://github.com/advplyr/audiobookshelf
+    type: application
+    urls:
+    - https://github.com/jimtang2/helm-charts/releases/download/audiobookshelf-0.0.13/audiobookshelf-0.0.13.tgz
+    version: 0.0.13
+  - apiVersion: v2
+    appVersion: 2.36.1
     created: "2026-09-21T17:43:40.090009703Z"
     description: A chart for audiobookshelf server
     digest: def3bc7c89b10c1ffbbbdbd1700978f53445d31105f35f24f0eef195a7a457f9
@@ -17,7 +33,40 @@ entries:
     urls:
     - audiobookshelf-0.0.6.tgz
     version: 0.0.6
+  jackett:
+  - apiVersion: v2
+    appVersion: 0.24.2631
+    created: "2026-09-21T18:38:41.796196164Z"
+    description: A chart for Jackett torrent proxy server
+    digest: 750cc54d60fbd03e0039f83403f82832ed15a0f4f8d37682af2c12548f8cdd1e
+    home: https://github.com/jimtang2/helm-charts/tree/main/charts/jackett
+    maintainers:
+    - name: jimtang2
+      url: https://github.com/jimtang2
+    name: jackett
+    sources:
+    - https://github.com/Jackett/Jackett
+    type: application
+    urls:
+    - https://github.com/jimtang2/helm-charts/releases/download/jackett-0.0.13/jackett-0.0.13.tgz
+    version: 0.0.13
   qbt:
+  - apiVersion: v2
+    appVersion: 5.2.3
+    created: "2026-09-21T18:38:41.999391007Z"
+    description: A chart for qbt server
+    digest: 8b0b6351ed3ae12f0901da61e9c9bcc694b19ed72f918eabab2ca49ab1932b80
+    home: https://github.com/jimtang2/helm-charts/tree/main/charts/qbt
+    maintainers:
+    - name: jimtang2
+      url: https://github.com/jimtang2
+    name: qbt
+    sources:
+    - https://github.com/qbittorrent/qBittorrent/
+    type: application
+    urls:
+    - https://github.com/jimtang2/helm-charts/releases/download/qbt-0.0.13/qbt-0.0.13.tgz
+    version: 0.0.13
   - apiVersion: v2
     appVersion: 5.2.3
     created: "2026-09-21T18:10:30.612903199Z"
@@ -34,4 +83,4 @@ entries:
     urls:
     - qbt-0.0.11.tgz
     version: 0.0.11
-generated: "2026-09-21T18:10:30.612905732Z"
+generated: "2026-09-21T18:38:41.999407688Z"
