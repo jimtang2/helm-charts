@@ -1,6 +1,6 @@
 apiVersion: v2
 name: audiobookshelf
-description: Audiobookshelf application chart
+description: A chart for audiobookshelf server
 type: application
 version: 0.0.6
 appVersion: "2.36.1"
