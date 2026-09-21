@@ -1,0 +1,20 @@
+apiVersion: v1
+entries:
+  audiobookshelf:
+  - apiVersion: v2
+    appVersion: 2.36.1
+    created: "2026-09-21T17:43:40.090009703Z"
+    description: A chart for audiobookshelf server
+    digest: def3bc7c89b10c1ffbbbdbd1700978f53445d31105f35f24f0eef195a7a457f9
+    home: https://github.com/jimtang2/helm-charts/tree/main/charts/audiobookshelf
+    maintainers:
+    - name: jimtang2
+      url: https://github.com/jimtang2
+    name: audiobookshelf
+    sources:
+    - https://github.com/advplyr/audiobookshelf
+    type: application
+    urls:
+    - audiobookshelf-0.0.6.tgz
+    version: 0.0.6
+generated: "2026-09-21T17:43:40.090022137Z"
