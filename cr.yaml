@@ -1,8 +1,7 @@
 owner: jimtang2
 git-repo: helm-charts
-
 pages-branch: release
+package-page: pkg
+generate-release-notes: true
 pages-index-path: index.yaml
-
 packages-with-index: false
-skip-existing: true
