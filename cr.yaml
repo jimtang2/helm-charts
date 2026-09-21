@@ -1,8 +1,0 @@
-owner: jimtang2
-git-repo: helm-charts
-
-pages-branch: release
-pages-index-path: index.yaml
-
-packages-with-index: true
-skip-existing: true
