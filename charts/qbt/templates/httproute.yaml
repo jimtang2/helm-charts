@@ -17,5 +17,5 @@ spec:
           value: /
       backendRefs:
         - name: {{ include "qbt.fullname" . }}
-          port: {{ .Values.service.port }}
+          port: {{ .Values.service.ports.webui.port }}
 {{- end }}
