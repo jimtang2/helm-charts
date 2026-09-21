@@ -32,6 +32,6 @@ jobs:
           config: cr.yaml
           version: v1.6.1
           mark_as_latest: true
-          packages_with_index: true
+          packages_with_index: false
           pages_branch: release
           skip_existing: true
