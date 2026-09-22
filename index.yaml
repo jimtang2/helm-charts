@@ -34,6 +34,26 @@ entries:
     urls:
     - https://github.com/jimtang2/helm-charts/releases/download/jackett-0.0.14/jackett-0.0.14.tgz
     version: 0.0.14
+  local-path-provisioner:
+  - apiVersion: v1
+    appVersion: v0.0.37
+    created: "2026-09-22T14:43:09.654285611Z"
+    description: Use HostPath for persistent local storage with Kubernetes
+    digest: 8071f501804ef1418ebeb5a482df7e5dbd50f24c848843a984a7574f3381f3c0
+    home: https://github.com/rancher/local-path-provisioner
+    keywords:
+    - storage
+    - hostpath
+    kubeVersion: '>=1.12.0-r0'
+    maintainers:
+    - name: jimtang2
+      url: https://github.com/jimtang2
+    name: local-path-provisioner
+    sources:
+    - https://github.com/rancher/local-path-provisioner.git
+    urls:
+    - https://github.com/jimtang2/helm-charts/releases/download/local-path-provisioner-0.0.37/local-path-provisioner-0.0.37.tgz
+    version: 0.0.37
   qbt:
   - apiVersion: v2
     appVersion: 5.2.3
@@ -51,4 +71,4 @@ entries:
     urls:
     - https://github.com/jimtang2/helm-charts/releases/download/qbt-0.0.14/qbt-0.0.14.tgz
     version: 0.0.14
-generated: "2026-09-21T18:44:39.396362841Z"
+generated: "2026-09-22T14:43:09.654292203Z"
