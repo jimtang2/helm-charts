@@ -1,0 +1,17 @@
+{{- if not .Values.existingConfigMap }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "chart.fullname" . }}-config
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+data:
+  config.json: |
+    {{- if not .Values.config }}
+    {{- fail "Values.config must define a Stalwart DataStore object or set existingConfigMap" }}
+    {{- end }}
+    {{- if not (hasKey .Values.config "@type") }}
+    {{- fail "Values.config must include the DataStore variant discriminator '@type'" }}
+    {{- end }}
+{{ .Values.config | toPrettyJson | indent 4 }}
+{{- end }}

@@ -1,0 +1,12 @@
+apiVersion: v2
+name: stalwart
+description: a chart for stalwart email server
+type: application
+version: 0.0.2
+appVersion: "v0.16"
+home: https://github.com/jimtang2/helm-charts/tree/main/charts/stalwart
+sources:
+  - https://github.com/stalwartlabs/stalwart
+maintainers:
+  - name: jimtang2
+    url: https://github.com/jimtang2

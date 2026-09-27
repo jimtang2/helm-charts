@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "chart.fullname" . }}-headless
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "chart.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ if .Values.existingConfigMap }}{{ .Values.existingConfigMap | quote }}{{ else }}{{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}{{ end }}
+    spec:
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: stalwart
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.containerSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          args:
+            - "--config"
+            - "/etc/stalwart/config.json"
+          env:
+            {{- if .Values.role }}
+            - name: STALWART_ROLE
+              value: {{ .Values.role | quote }}
+            {{- end }}
+            {{- if .Values.pushShard }}
+            - name: STALWART_PUSH_SHARD
+              value: {{ .Values.pushShard | quote }}
+            {{- end }}
+            {{- if .Values.recoveryMode.enabled }}
+            - name: STALWART_RECOVERY_MODE
+              value: "true"
+            - name: STALWART_RECOVERY_MODE_PORT
+              value: {{ .Values.recoveryMode.port | quote }}
+            - name: STALWART_RECOVERY_MODE_LOG_LEVEL
+              value: {{ .Values.recoveryMode.logLevel | quote }}
+            {{- end }}
+            {{- range $key, $value := .Values.extraEnv }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ include "chart.fullname" . }}-env
+          ports:
+            - name: smtp
+              containerPort: {{ .Values.ports.smtp }}
+            - name: smtps
+              containerPort: {{ .Values.ports.smtps }}
+            - name: submission
+              containerPort: {{ .Values.ports.submission }}
+            - name: imap
+              containerPort: {{ .Values.ports.imap }}
+            - name: imaps
+              containerPort: {{ .Values.ports.imaps }}
+            - name: pop3
+              containerPort: {{ .Values.ports.pop3 }}
+            - name: pop3s
+              containerPort: {{ .Values.ports.pop3s }}
+            - name: sieve
+              containerPort: {{ .Values.ports.sieve }}
+            - name: http
+              containerPort: {{ .Values.ports.http }}
+            - name: https
+              containerPort: {{ .Values.ports.https }}
+            - name: mgmt
+              containerPort: {{ .Values.ports.mgmt }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/stalwart/config.json
+              subPath: config.json
+              readOnly: true
+            {{- if .Values.persistence.enabled }}
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath }}
+            {{- end }}
+            {{- if .Values.tls.enabled }}
+            - name: tls
+              mountPath: {{ .Values.tls.mountPath }}
+              readOnly: true
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ default (printf "%s-config" (include "chart.fullname" .)) .Values.existingConfigMap }}
+        {{- if .Values.tls.enabled }}
+        - name: tls
+          secret:
+            secretName: {{ .Values.tls.secretName }}
+        {{- end }}
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        {{- with .Values.persistence.annotations }}
+        annotations:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.accessMode | quote }}
+        {{- if .Values.persistence.storageClass }}
+        storageClassName: {{ .Values.persistence.storageClass | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+  {{- end }}
