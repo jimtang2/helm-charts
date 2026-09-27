@@ -71,4 +71,21 @@ entries:
     urls:
     - https://github.com/jimtang2/helm-charts/releases/download/qbt-0.0.14/qbt-0.0.14.tgz
     version: 0.0.14
-generated: "2026-09-22T14:43:09.654292203Z"
+  stalwart:
+  - apiVersion: v2
+    appVersion: v0.16
+    created: "2026-09-27T19:21:35.533299795Z"
+    description: a chart for stalwart email server
+    digest: 4b626ac1bd252209057dd9d165ebb8403d92ab7eb062d7d2690afef3fc14926f
+    home: https://github.com/jimtang2/helm-charts/tree/main/charts/stalwart
+    maintainers:
+    - name: jimtang2
+      url: https://github.com/jimtang2
+    name: stalwart
+    sources:
+    - https://github.com/stalwartlabs/stalwart
+    type: application
+    urls:
+    - https://github.com/jimtang2/helm-charts/releases/download/stalwart-0.0.2/stalwart-0.0.2.tgz
+    version: 0.0.2
+generated: "2026-09-27T19:21:35.533305444Z"
